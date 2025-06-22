@@ -1,25 +1,20 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import {
-  getSavings,
-  deleteSaving,
-} from "../../services/savingsService";
-import { Saving } from "../../types/Saving";
+import { getInvestments, deleteInvestment } from "../../services/investmentService";
+import { Investment } from "../../types/Investment";
 import PageHeader from "../../components/PageHeader";
 import { showToast } from "../../components/ToastPortal";
-import { deleteSavingPayment, getSavingPayments } from "../../services/savingpayments";
-
 import {
   PlusIcon,
   PencilSquareIcon,
   TrashIcon,
-  BanknotesIcon,
-  DocumentTextIcon
+  ChartBarIcon,
+  DocumentTextIcon,
 } from "@heroicons/react/24/solid";
 
-const ListSaving = () => {
-  const [savingList, setSavingList] = useState<Saving[]>([]);
-  const [filteredList, setFilteredList] = useState<Saving[]>([]);
+const ListInvestment = () => {
+  const [investmentList, setInvestmentList] = useState<Investment[]>([]);
+  const [filteredList, setFilteredList] = useState<Investment[]>([]);
   const [search, setSearch] = useState("");
   const [filterType, setFilterType] = useState("All");
   const [currentPage, setCurrentPage] = useState(1);
@@ -28,38 +23,40 @@ const ListSaving = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    fetchSavings();
+    fetchInvestments();
   }, []);
 
   useEffect(() => {
     applyFilters();
-  }, [search, filterType, savingList]);
+  }, [search, filterType, investmentList]);
 
-  const fetchSavings = async () => {
+  const fetchInvestments = async () => {
     try {
-      const res = await getSavings();
-      setSavingList(res.data);
+      const res = await getInvestments();
+      setInvestmentList(res.data);
     } catch {
-      showToast("error", "Failed to load savings data.");
+      showToast("error", "Failed to load investment records.");
     }
   };
 
   const applyFilters = () => {
-    let data = [...savingList];
+    let data = [...investmentList];
     if (filterType !== "All") {
-      data = data.filter((item) => item.savingType === filterType);
+      data = data.filter((item) => item.investmentType === filterType);
     }
     if (search.trim()) {
       data = data.filter(
         (item) =>
-          item.title.toLowerCase().includes(search.toLowerCase()) ||
-          item.goalName?.toLowerCase().includes(search.toLowerCase()) ||
-          item.category.toLowerCase().includes(search.toLowerCase())
+          item.investmentType.toLowerCase().includes(search.toLowerCase()) ||
+          item.platform.toLowerCase().includes(search.toLowerCase()) ||
+          item.notes?.toLowerCase().includes(search.toLowerCase())
       );
     }
     setFilteredList(data);
     setCurrentPage(1);
   };
+
+  const totalAmount = filteredList.reduce((sum, item) => sum + item.amount, 0);
 
   const paginatedData = filteredList.slice(
     (currentPage - 1) * itemsPerPage,
@@ -68,44 +65,31 @@ const ListSaving = () => {
   const totalPages = Math.ceil(filteredList.length / itemsPerPage);
 
   const handleEdit = (id: string | number) => {
-    navigate(`/savings/edit/${id}`);
+    navigate(`/investments/edit/${id}`);
   };
 
   const handleDelete = (id: string | number) => {
     setDeleteId(String(id));
   };
 
-const handleConfirmDelete = async () => {
-  if (!deleteId) return;
-
-  try {
-    // 1. Get all payments for this saving
-    const res = await getSavingPayments();
-    const relatedPayments = res.data.filter(p => String(p.savingId) === deleteId);
-
-    // 2. Delete each related payment
-    await Promise.all(relatedPayments.map(p => deleteSavingPayment(p.id)));
-
-    // 3. Delete the saving
-    await deleteSaving(deleteId);
-    showToast("success", "Saving and related payments deleted.");
-    
-    fetchSavings();
-  } catch {
-    showToast("error", "Failed to delete saving or its payments.");
-  } finally {
-    setDeleteId(null);
-  }
-};
-
+  const handleConfirmDelete = async () => {
+    if (!deleteId) return;
+    try {
+      await deleteInvestment(deleteId);
+      showToast("success", "Investment record deleted.");
+      fetchInvestments();
+    } catch {
+      showToast("error", "Failed to delete investment.");
+    } finally {
+      setDeleteId(null);
+    }
+  };
 
   const ConfirmDeleteModal = ({ onConfirm, onCancel }: any) => (
     <dialog className="modal modal-open">
       <div className="modal-box">
         <h3 className="font-bold text-lg">Confirm Deletion</h3>
-      <p className="py-4">
-        Are you sure you want to delete this saving entry and all its related payments?
-      </p>
+        <p className="py-4">Are you sure you want to delete this investment record?</p>
         <div className="modal-action">
           <button className="btn btn-primary" onClick={onConfirm}>Yes, Delete</button>
           <button className="btn" onClick={onCancel}>Cancel</button>
@@ -117,20 +101,32 @@ const handleConfirmDelete = async () => {
   return (
     <div className="p-2">
       <PageHeader
-        title="Savings List"
-        icon={<BanknotesIcon className="w-6 h-6" />}
-        breadcrumb={["Components", "Savings", "List"]}
+        title="Investment List"
+        icon={<ChartBarIcon className="w-6 h-6" />}
+        breadcrumb={["Components", "Investments", "List"]}
       />
+
+      {/* Summary Card */}
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-4">
+        <div className="stats bg-base-200 shadow-md">
+          <div className="stat">
+            <div className="stat-title">Total Invested Amount</div>
+            <div className="stat-value text-primary">
+              ₹ {totalAmount.toLocaleString("en-IN")}
+            </div>
+          </div>
+        </div>
+      </div>
 
       <div className="card bg-white border border-gray-200 shadow-sm">
         <div className="card-body">
-          {/* Header filter */}
+          {/* Filters */}
           <div className="flex flex-col md:flex-row items-center justify-between gap-2">
             <div className="flex gap-2 w-full md:w-auto">
               <input
                 type="text"
                 className="input input-bordered w-full"
-                placeholder="Search..."
+                placeholder="Search by platform or notes"
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
               />
@@ -140,17 +136,19 @@ const handleConfirmDelete = async () => {
                 onChange={(e) => setFilterType(e.target.value)}
               >
                 <option value="All">All Types</option>
-                <option value="Recurring">Recurring</option>
-                <option value="One-time">One-time</option>
+                <option value="Mutual Fund">Mutual Fund</option>
+                <option value="Stock">Stock</option>
+                <option value="Gold">Gold</option>
+                <option value="Real Estate">Real Estate</option>
               </select>
             </div>
 
             <button
               className="btn btn-primary shadow hover:scale-105 transition-transform"
-              onClick={() => navigate("/savings")}
+              onClick={() => navigate("/investments")}
             >
               <PlusIcon className="h-5 w-5" />
-              <span className="ml-2">Add Saving</span>
+              <span className="ml-2">Add Investment</span>
             </button>
           </div>
 
@@ -160,27 +158,26 @@ const handleConfirmDelete = async () => {
               <thead className="bg-base-100 text-base-content">
                 <tr className="text-sm">
                   <th>Date</th>
-                  <th>Title</th>
                   <th>Amount</th>
-                  <th>Category</th>
                   <th>Type</th>
-                  <th>Goal</th>
+                  <th>Platform</th>
+                  <th>Notes</th>
                   <th className="text-center">Actions</th>
                 </tr>
               </thead>
               <tbody>
                 {paginatedData.length === 0 ? (
                   <tr>
-                    <td colSpan={7} className="text-center py-6 text-gray-500">
+                    <td colSpan={6} className="text-center py-6 text-gray-500">
                       <div className="text-center py-8 text-gray-500">
                         <DocumentTextIcon className="h-10 w-10 mx-auto mb-2" />
-                        <p className="text-md">No savings entries found.</p>
+                        <p className="text-md">No investments found.</p>
                         <button
-                          onClick={() => navigate("/savings")}
+                          onClick={() => navigate("/investments")}
                           className="btn btn-primary mt-2"
                         >
                           <PlusIcon className="h-5 w-5 mr-1" />
-                          Add Your First Entry
+                          Add Your First Investment
                         </button>
                       </div>
                     </td>
@@ -189,26 +186,12 @@ const handleConfirmDelete = async () => {
                   paginatedData.map((item) => (
                     <tr key={item.id} className="hover:bg-base-200 transition-all">
                       <td>{item.date}</td>
-                      <td className="max-w-[180px] truncate">{item.title}</td>
                       <td className="badge badge-outline badge-primary badge-xs">
-                        {new Intl.NumberFormat("en-IN", {
-                          style: "currency",
-                          currency: item.currency,
-                        }).format(item.amount)}
+                        ₹ {item.amount.toLocaleString("en-IN")}
                       </td>
-                      <td>{item.category}</td>
-                      <td>
-                        <span
-                          className={`badge badge-sm ${
-                            item.savingType === "Recurring"
-                              ? "badge-info"
-                              : "badge-success"
-                          }`}
-                        >
-                          {item.savingType}
-                        </span>
-                      </td>
-                      <td className="max-w-[120px] truncate">{item.goalName || "-"}</td>
+                      <td>{item.investmentType}</td>
+                      <td>{item.platform}</td>
+                      <td className="max-w-[180px] truncate">{item.notes || "-"}</td>
                       <td className="flex gap-2 justify-center">
                         <button
                           className="btn btn-sm btn-square btn-outline btn-primary tooltip"
@@ -262,4 +245,4 @@ const handleConfirmDelete = async () => {
   );
 };
 
-export default ListSaving;
+export default ListInvestment;

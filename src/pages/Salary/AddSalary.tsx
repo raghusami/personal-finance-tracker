@@ -94,9 +94,9 @@ const AddEditSalary = () => {
   return (
  <div className="flex flex-col gap-2 p-4">
   <PageHeader
-    title={isEdit ? "Edit Salary Entry" : "Add Salary Entry"}
+    title={isEdit ? "Edit Income Entry" : "Add Income Entry"}
     icon={<CurrencyRupeeIcon className="w-6 h-6" />}
-    breadcrumb={["Components", "Income", isEdit ? "Edit Salary" : "Add Salary"]}
+    breadcrumb={["Components", "Income", isEdit ? "Edit Income" : "Add Income"]}
   />
 
    <div className="flex justify-left">

@@ -10,6 +10,8 @@ import PageHeader from "../../components/PageHeader";
 import { showToast } from "../../components/ToastPortal";
 
 import { BanknotesIcon } from "@heroicons/react/24/solid";
+import { createSavingPayment } from "../../services/savingpayments"; // Assuming this is the correct path
+
 
 // ✅ Category list
 const categoryOptions = [
@@ -24,12 +26,10 @@ const categoryOptions = [
   "PPF",
   "NPS",
   "Mutual Fund (non-SIP)",
-  "Emergency Fund",
   "Vacation",
   "Education",
   "Retirement",
   "Wedding",
-  "Gold",
   "Home Renovation",
   "Vehicle Purchase",
   "Health Expenses",
@@ -119,21 +119,48 @@ const AddEditSaving = () => {
     }
   };
 
-  const onSubmit = async (formData: Omit<Saving, "id">) => {
-    try {
-      if (isEdit && id) {
-        await updateSaving(id, formData);
-        showToast("success", "Saving updated successfully!");
-      } else {
-        await createSaving(formData);
-        showToast("success", "Saving added successfully!");
-      }
-      navigate("/savings/list");
-    } catch (error) {
-      showToast("error", "Failed to save saving entry.");
-    }
-  };
+    const onSubmit = async (formData: Omit<Saving, "id">) => {
+  try {
+    let savingId: number | string;
 
+    if (isEdit && id) {
+      await updateSaving(id, formData);
+      savingId = id;
+      showToast("success", "Saving updated successfully!");
+    } else {
+      const savingRes = await createSaving(formData);
+      savingId = savingRes.data.id;
+      showToast("success", "Saving added successfully!");
+    }
+
+    // ✅ Add SavingPayments for Recurring Type
+    if (formData.savingType === "Recurring" && formData.numberOfMonths && savingId) {
+      const startDate = new Date(formData.date);
+
+      for (let i = 0; i < formData.numberOfMonths; i++) {
+        const paymentDate = new Date(startDate);
+        paymentDate.setMonth(startDate.getMonth() + i);
+
+        const paymentData = {
+          savingId: savingId,
+          date: paymentDate.toISOString().split("T")[0],
+          amount: formData.amount,
+          status: "Pending" as const,
+          paymentMethod: "Bank Transfer",
+          notes: `Auto-generated for month ${i + 1}`,
+        };
+
+        await createSavingPayment(paymentData);
+      }
+
+      showToast("success", `${formData.numberOfMonths} monthly payments created.`);
+    }
+
+    navigate("/savings/list");
+  } catch (error) {
+    showToast("error", "Failed to save saving entry.");
+  }
+};
   return (
     <div className="flex flex-col gap-2 p-4">
       <PageHeader

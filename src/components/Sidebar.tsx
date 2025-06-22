@@ -15,9 +15,11 @@ const Sidebar = () => {
       title: "Apps",
       items: [
         { name: "Dashboard", path: "/dashboard", icon: <FiHome /> },
-        { name: "Salary", path: "/salary/list", icon: <FiDollarSign /> },
+        { name: "Income", path: "/salary/list", icon: <FiDollarSign /> },
         { name: "Expense", path: "/expenses/list", icon: <FiFileText /> },
         { name: "Saving", path: "/savings/list", icon: <BsPiggyBank /> },
+        { name: "Saving Payments", path: "/saving-payments/list", icon: <FiFileText /> },
+        { name: "Investments", path: "/investments/list", icon: <FiDollarSign /> },
       ],
     },
     {

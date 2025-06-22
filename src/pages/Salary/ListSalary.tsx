@@ -102,11 +102,11 @@ const ListSalary = () => {
 
   return (
     <div className="p-2">
-      <PageHeader title="Salary List" 
+      <PageHeader title="Income List" 
       icon={<CurrencyRupeeIcon className="w-6 h-6" />}  
-      breadcrumb={["Components", "Income", "Salary List"]} />
+      breadcrumb={["Components", "Income", "Income List"]} />
 
-<div className="card bg-white border border-gray-200 shadow-sm">
+       <div className="card bg-white border border-gray-200 shadow-sm">
         <div className="card-body">
           {/* Header with Add + Filters */}
           <div className="flex flex-col md:flex-row items-center justify-between gap-2">
@@ -136,7 +136,7 @@ const ListSalary = () => {
               title="Add Salary"
             >
               <PlusIcon className="h-5 w-5" />
-              <span className="ml-2">Add Salary</span>
+              <span className="ml-2">Add Income</span>
             </button>
 
           </div>
@@ -161,7 +161,7 @@ const ListSalary = () => {
       <td colSpan={7} className="text-center py-6 text-gray-500">
       <div className="text-center py-8 text-gray-500">
               <DocumentTextIcon className="h-10 w-10 mx-auto mb-2" />
-              <p className="text-md">No salary entries found.</p>
+              <p className="text-md">No Income entries found.</p>
               <button onClick={() => navigate("/salary")} className="btn btn-primary mt-2">
                 <PlusIcon className="h-5 w-5 mr-1" />
                 Add Your First Entry

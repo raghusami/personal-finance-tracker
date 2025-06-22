@@ -1,15 +1,6 @@
 {
   "salaries": [
     {
-      "date": "2025-01-01",
-      "sourceOfIncome": "Salary",
-      "amount": 94500,
-      "currency": "INR",
-      "notes": "Monthly Income",
-      "type": "Primary",
-      "id": "425b"
-    },
-    {
       "id": "8cd0",
       "type": "Primary",
       "notes": "Monthly Income",
@@ -53,15 +44,6 @@
       "sourceOfIncome": "Salary",
       "date": "2025-06-01",
       "id": "6937"
-    },
-    {
-      "date": "2025-06-20",
-      "sourceOfIncome": "Other",
-      "amount": 5000,
-      "currency": "INR",
-      "notes": "Client Working ",
-      "type": "Secondary",
-      "id": "aad7"
     }
   ],
   "expenses": [
@@ -78,23 +60,129 @@
   ],
   "savings": [
     {
+      "id": "2acc",
       "notes": "",
-      "account": "",
-      "maturityDate": "2025-06-27",
-      "targetDate": "",
-      "interestRate": 8,
-      "targetAmount": 66997,
-      "goalName": "Chitnamee",
-      "vendorName": "tete",
+      "account": "RAGHU S",
+      "maturityDate": "2026-01-20",
+      "targetDate": "2025-12-01",
+      "interestRate": 1,
+      "targetAmount": 110000,
+      "goalName": "SAVING GOLD ",
+      "vendorName": "tanishq",
       "numberOfMonths": 11,
-      "interestAmount": 6000,
+      "interestAmount": 1,
       "category": "Gold",
       "savingType": "Recurring",
       "currency": "INR",
-      "amount": 9000,
-      "title": "dddf",
-      "date": "2025-06-20",
-      "id": "d4ff"
+      "amount": 10000,
+      "title": "CHIT SCHEME",
+      "date": "2025-01-01"
+    }
+  ],
+  "savingpayments": [
+    {
+      "savingId": "2acc",
+      "date": "2025-01-01",
+      "amount": 10000,
+      "status": "Completed",
+      "paymentMethod": "Bank Transfer",
+      "notes": "Auto-generated for month 1",
+      "id": "8394"
+    },
+    {
+      "savingId": "2acc",
+      "date": "2025-02-01",
+      "amount": 10000,
+      "status": "Completed",
+      "paymentMethod": "Bank Transfer",
+      "notes": "Auto-generated for month 2",
+      "id": "77cb"
+    },
+    {
+      "savingId": "2acc",
+      "date": "2025-03-01",
+      "amount": 10000,
+      "status": "Completed",
+      "paymentMethod": "Bank Transfer",
+      "notes": "Auto-generated for month 3",
+      "id": "b777"
+    },
+    {
+      "savingId": "2acc",
+      "date": "2025-04-01",
+      "amount": 10000,
+      "status": "Completed",
+      "paymentMethod": "Bank Transfer",
+      "notes": "Auto-generated for month 4",
+      "id": "724d"
+    },
+    {
+      "id": "24a9",
+      "savingId": "2acc",
+      "date": "2025-05-01",
+      "amount": 10000,
+      "status": "Pending",
+      "paymentMethod": "Bank Transfer",
+      "notes": "Auto-generated for month 5"
+    },
+    {
+      "id": "5a38",
+      "savingId": "2acc",
+      "date": "2025-06-01",
+      "amount": 10000,
+      "status": "Pending",
+      "paymentMethod": "Bank Transfer",
+      "notes": "Auto-generated for month 6"
+    },
+    {
+      "id": "55df",
+      "savingId": "2acc",
+      "date": "2025-07-01",
+      "amount": 10000,
+      "status": "Pending",
+      "paymentMethod": "Bank Transfer",
+      "notes": "Auto-generated for month 7"
+    },
+    {
+      "id": "4ab2",
+      "savingId": "2acc",
+      "date": "2025-08-01",
+      "amount": 10000,
+      "status": "Pending",
+      "paymentMethod": "Bank Transfer",
+      "notes": "Auto-generated for month 8"
+    },
+    {
+      "id": "617b",
+      "savingId": "2acc",
+      "date": "2025-09-01",
+      "amount": 10000,
+      "status": "Pending",
+      "paymentMethod": "Bank Transfer",
+      "notes": "Auto-generated for month 9"
+    }
+  ],
+  "investments": [
+    {
+      "date": "2025-02-20",
+      "investmentType": "Stocks",
+      "platform": "Zerodha",
+      "amount": 30000,
+      "currentValue": 0,
+      "status": "Active",
+      "notes": "Tech Stocks Purchase",
+      "id": "3c4d",
+      "currency": "INR"
+    },
+    {
+      "date": "2025-06-01",
+      "investmentType": "Stocks",
+      "platform": "Zerodha",
+      "amount": 5000,
+      "currentValue": 6700,
+      "status": "Active",
+      "notes": "Test",
+      "id": "8b69"
     }
   ]
 }

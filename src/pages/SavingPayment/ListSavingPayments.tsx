@@ -1,62 +1,59 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import {
-  getSavings,
-  deleteSaving,
-} from "../../services/savingsService";
-import { Saving } from "../../types/Saving";
+import { getSavingPayments, deleteSavingPayment } from "../../services/savingpayments";
+import { SavingPayments } from "../../types/SavingPayments";
 import PageHeader from "../../components/PageHeader";
 import { showToast } from "../../components/ToastPortal";
-import { deleteSavingPayment, getSavingPayments } from "../../services/savingpayments";
-
 import {
   PlusIcon,
   PencilSquareIcon,
   TrashIcon,
-  BanknotesIcon,
-  DocumentTextIcon
+  CreditCardIcon,
+  DocumentTextIcon,
 } from "@heroicons/react/24/solid";
 
-const ListSaving = () => {
-  const [savingList, setSavingList] = useState<Saving[]>([]);
-  const [filteredList, setFilteredList] = useState<Saving[]>([]);
+const ListSavingPayments = () => {
+  const [paymentList, setPaymentList] = useState<SavingPayments[]>([]);
+  const [filteredList, setFilteredList] = useState<SavingPayments[]>([]);
   const [search, setSearch] = useState("");
-  const [filterType, setFilterType] = useState("All");
+  const [filterMethod, setFilterMethod] = useState("All");
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 5;
   const [deleteId, setDeleteId] = useState<string | null>(null);
   const navigate = useNavigate();
 
   useEffect(() => {
-    fetchSavings();
+    fetchPayments();
   }, []);
 
   useEffect(() => {
     applyFilters();
-  }, [search, filterType, savingList]);
+  }, [search, filterMethod, paymentList]);
 
-  const fetchSavings = async () => {
+  const fetchPayments = async () => {
     try {
-      const res = await getSavings();
-      setSavingList(res.data);
+      const res = await getSavingPayments();
+      setPaymentList(res.data);
     } catch {
-      showToast("error", "Failed to load savings data.");
+      showToast("error", "Failed to load saving payments.");
     }
   };
 
   const applyFilters = () => {
-    let data = [...savingList];
-    if (filterType !== "All") {
-      data = data.filter((item) => item.savingType === filterType);
+    let data = [...paymentList];
+
+    if (filterMethod !== "All") {
+      data = data.filter((p) => p.paymentMethod === filterMethod);
     }
+
     if (search.trim()) {
       data = data.filter(
-        (item) =>
-          item.title.toLowerCase().includes(search.toLowerCase()) ||
-          item.goalName?.toLowerCase().includes(search.toLowerCase()) ||
-          item.category.toLowerCase().includes(search.toLowerCase())
+        (p) =>
+          p.notes?.toLowerCase().includes(search.toLowerCase()) ||
+          p.paymentMethod.toLowerCase().includes(search.toLowerCase())
       );
     }
+
     setFilteredList(data);
     setCurrentPage(1);
   };
@@ -67,48 +64,34 @@ const ListSaving = () => {
   );
   const totalPages = Math.ceil(filteredList.length / itemsPerPage);
 
-  const handleEdit = (id: string | number) => {
-    navigate(`/savings/edit/${id}`);
+  const handleEdit = (id: string | number) => navigate(`/saving-payments/edit/${id}`);
+  const handleDelete = (id: string | number) => setDeleteId(String(id));
+
+  const handleConfirmDelete = async () => {
+    if (!deleteId) return;
+    try {
+      await deleteSavingPayment(deleteId);
+      showToast("success", "Payment deleted.");
+      fetchPayments();
+    } catch {
+      showToast("error", "Failed to delete payment.");
+    } finally {
+      setDeleteId(null);
+    }
   };
-
-  const handleDelete = (id: string | number) => {
-    setDeleteId(String(id));
-  };
-
-const handleConfirmDelete = async () => {
-  if (!deleteId) return;
-
-  try {
-    // 1. Get all payments for this saving
-    const res = await getSavingPayments();
-    const relatedPayments = res.data.filter(p => String(p.savingId) === deleteId);
-
-    // 2. Delete each related payment
-    await Promise.all(relatedPayments.map(p => deleteSavingPayment(p.id)));
-
-    // 3. Delete the saving
-    await deleteSaving(deleteId);
-    showToast("success", "Saving and related payments deleted.");
-    
-    fetchSavings();
-  } catch {
-    showToast("error", "Failed to delete saving or its payments.");
-  } finally {
-    setDeleteId(null);
-  }
-};
-
 
   const ConfirmDeleteModal = ({ onConfirm, onCancel }: any) => (
     <dialog className="modal modal-open">
       <div className="modal-box">
         <h3 className="font-bold text-lg">Confirm Deletion</h3>
-      <p className="py-4">
-        Are you sure you want to delete this saving entry and all its related payments?
-      </p>
+        <p className="py-4">Are you sure you want to delete this saving payment entry?</p>
         <div className="modal-action">
-          <button className="btn btn-primary" onClick={onConfirm}>Yes, Delete</button>
-          <button className="btn" onClick={onCancel}>Cancel</button>
+          <button className="btn btn-primary" onClick={onConfirm}>
+            Yes, Delete
+          </button>
+          <button className="btn" onClick={onCancel}>
+            Cancel
+          </button>
         </div>
       </div>
     </dialog>
@@ -117,40 +100,42 @@ const handleConfirmDelete = async () => {
   return (
     <div className="p-2">
       <PageHeader
-        title="Savings List"
-        icon={<BanknotesIcon className="w-6 h-6" />}
-        breadcrumb={["Components", "Savings", "List"]}
+        title="Saving Payments List"
+        icon={<CreditCardIcon className="w-6 h-6" />}
+        breadcrumb={["Components", "Saving Payments", "List"]}
       />
 
       <div className="card bg-white border border-gray-200 shadow-sm">
         <div className="card-body">
-          {/* Header filter */}
+          {/* Filter */}
           <div className="flex flex-col md:flex-row items-center justify-between gap-2">
             <div className="flex gap-2 w-full md:w-auto">
               <input
                 type="text"
                 className="input input-bordered w-full"
-                placeholder="Search..."
+                placeholder="Search by notes or method"
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
               />
               <select
                 className="select select-bordered"
-                value={filterType}
-                onChange={(e) => setFilterType(e.target.value)}
+                value={filterMethod}
+                onChange={(e) => setFilterMethod(e.target.value)}
               >
-                <option value="All">All Types</option>
-                <option value="Recurring">Recurring</option>
-                <option value="One-time">One-time</option>
+                <option value="All">All Methods</option>
+                <option value="Bank Transfer">Bank Transfer</option>
+                <option value="Cash">Cash</option>
+                <option value="UPI">UPI</option>
+                <option value="Cheque">Cheque</option>
               </select>
             </div>
 
             <button
               className="btn btn-primary shadow hover:scale-105 transition-transform"
-              onClick={() => navigate("/savings")}
+              onClick={() => navigate("/saving-payments")}
             >
               <PlusIcon className="h-5 w-5" />
-              <span className="ml-2">Add Saving</span>
+              <span className="ml-2">Add Payment</span>
             </button>
           </div>
 
@@ -160,27 +145,26 @@ const handleConfirmDelete = async () => {
               <thead className="bg-base-100 text-base-content">
                 <tr className="text-sm">
                   <th>Date</th>
-                  <th>Title</th>
                   <th>Amount</th>
-                  <th>Category</th>
-                  <th>Type</th>
-                  <th>Goal</th>
+                  <th>Status</th>
+                  <th>Method</th>
+                  <th>Notes</th>
                   <th className="text-center">Actions</th>
                 </tr>
               </thead>
               <tbody>
                 {paginatedData.length === 0 ? (
                   <tr>
-                    <td colSpan={7} className="text-center py-6 text-gray-500">
+                    <td colSpan={6} className="text-center py-6 text-gray-500">
                       <div className="text-center py-8 text-gray-500">
                         <DocumentTextIcon className="h-10 w-10 mx-auto mb-2" />
-                        <p className="text-md">No savings entries found.</p>
+                        <p className="text-md">No saving payments found.</p>
                         <button
-                          onClick={() => navigate("/savings")}
+                          onClick={() => navigate("/saving-payments")}
                           className="btn btn-primary mt-2"
                         >
                           <PlusIcon className="h-5 w-5 mr-1" />
-                          Add Your First Entry
+                          Add Your First Payment
                         </button>
                       </div>
                     </td>
@@ -189,26 +173,27 @@ const handleConfirmDelete = async () => {
                   paginatedData.map((item) => (
                     <tr key={item.id} className="hover:bg-base-200 transition-all">
                       <td>{item.date}</td>
-                      <td className="max-w-[180px] truncate">{item.title}</td>
                       <td className="badge badge-outline badge-primary badge-xs">
                         {new Intl.NumberFormat("en-IN", {
                           style: "currency",
-                          currency: item.currency,
+                          currency: "INR",
                         }).format(item.amount)}
                       </td>
-                      <td>{item.category}</td>
                       <td>
                         <span
                           className={`badge badge-sm ${
-                            item.savingType === "Recurring"
+                            item.status === "Completed"
+                              ? "badge-success"
+                              : item.status === "Pending"
                               ? "badge-info"
-                              : "badge-success"
+                              : "badge-error"
                           }`}
                         >
-                          {item.savingType}
+                          {item.status}
                         </span>
                       </td>
-                      <td className="max-w-[120px] truncate">{item.goalName || "-"}</td>
+                      <td>{item.paymentMethod}</td>
+                      <td className="max-w-[180px] truncate">{item.notes || "-"}</td>
                       <td className="flex gap-2 justify-center">
                         <button
                           className="btn btn-sm btn-square btn-outline btn-primary tooltip"
@@ -262,4 +247,4 @@ const handleConfirmDelete = async () => {
   );
 };
 
-export default ListSaving;
+export default ListSavingPayments;
