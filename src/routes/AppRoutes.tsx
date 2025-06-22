@@ -14,11 +14,13 @@ import  SavingPayments from '../pages/SavingPayment/AddEditSavingPayment'; //  N
 import ListSavingPayments from '../pages/SavingPayment/ListSavingPayments'; //  New component for listing saving payments
 import AddEditInvestment from "../pages/Investment/AddEditInvestment";  
 import ListInvestment from "../pages/Investment/ListInvestment"; //  New component for listing investments
+import LandingPage from "../pages/Auth/LandingPage";
 
 const AppRoutes = () => (
   <Routes>
     <Route path="/login" element={<Login />} />
     <Route path="/register" element={<Register />} />
+    <Route path="/landingpage" element={<LandingPage />} />
 
     <Route path="/" element={<Layout />}>
       <Route path="dashboard" element={<Dashboard />} />

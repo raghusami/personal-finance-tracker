@@ -19,7 +19,7 @@ const Sidebar = () => {
         { name: "Expense", path: "/expenses/list", icon: <FiFileText /> },
         { name: "Saving", path: "/savings/list", icon: <BsPiggyBank /> },
         { name: "Saving Payments", path: "/saving-payments/list", icon: <FiFileText /> },
-        { name: "Investments", path: "/investments/list", icon: <FiDollarSign /> },
+        { name: "Investments", path: "/investments/list", icon: <FiDollarSign /> }
       ],
     },
     {
