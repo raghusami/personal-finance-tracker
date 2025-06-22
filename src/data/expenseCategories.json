@@ -1,0 +1,50 @@
+[
+  {
+    "category": "Housing",
+    "subcategories": ["Rent", "Home Loan EMI", "Electricity", "Water", "Gas", "Internet", "Maintenance"]
+  },
+  {
+    "category": "Groceries",
+    "subcategories": ["Monthly Groceries", "Vegetables & Fruits", "Dairy & Milk", "Packaged Food"]
+  },
+  {
+    "category": "Food",
+    "subcategories": ["Dining Out", "Tiffin Service", "Cook", "Snacks & Beverages"]
+  },
+  {
+    "category": "Transport",
+    "subcategories": ["Fuel", "Cab/Uber", "Public Transport", "Vehicle Maintenance", "Car/Bike EMI"]
+  },
+  {
+    "category": "Health",
+    "subcategories": ["Health Insurance", "Medicines", "Doctor Visit", "Lab Tests", "Gym/Yoga"]
+  },
+  {
+    "category": "Education",
+    "subcategories": ["School Fees", "College Fees", "Tuition", "Books & Stationery", "Online Courses"]
+  },
+  {
+    "category": "Personal",
+    "subcategories": ["Mobile Bill", "Subscriptions", "Salon/Spa", "Grooming"]
+  },
+  {
+    "category": "Finance",
+    "subcategories": ["SIP", "FD/RD", "Life Insurance", "Credit Card Payment", "Loan EMI"]
+  },
+  {
+    "category": "Shopping",
+    "subcategories": ["Clothing", "Electronics", "Furniture", "Household Items"]
+  },
+  {
+    "category": "Travel",
+    "subcategories": ["Vacation", "Flight/Train Tickets", "Hotel Booking", "Weekend Trips"]
+  },
+  {
+    "category": "Social & Religious",
+    "subcategories": ["Temple Donations", "Festival Shopping", "Gifts", "Charity"]
+  },
+  {
+    "category": "Kids & Family",
+    "subcategories": ["Toys", "Kids Tuition", "Baby Care", "Family Outings"]
+  }
+]

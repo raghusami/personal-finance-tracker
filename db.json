@@ -1,0 +1,100 @@
+{
+  "salaries": [
+    {
+      "date": "2025-01-01",
+      "sourceOfIncome": "Salary",
+      "amount": 94500,
+      "currency": "INR",
+      "notes": "Monthly Income",
+      "type": "Primary",
+      "id": "425b"
+    },
+    {
+      "id": "8cd0",
+      "type": "Primary",
+      "notes": "Monthly Income",
+      "currency": "INR",
+      "amount": 94500,
+      "sourceOfIncome": "Salary",
+      "date": "2025-02-01"
+    },
+    {
+      "id": "1929",
+      "type": "Primary",
+      "notes": "Monthly Income",
+      "currency": "INR",
+      "amount": 94500,
+      "sourceOfIncome": "Salary",
+      "date": "2025-03-01"
+    },
+    {
+      "id": "d302",
+      "type": "Primary",
+      "notes": "Monthly Income",
+      "currency": "INR",
+      "amount": 94500,
+      "sourceOfIncome": "Salary",
+      "date": "2025-04-01"
+    },
+    {
+      "date": "2025-05-01",
+      "sourceOfIncome": "Salary",
+      "amount": 94500,
+      "currency": "INR",
+      "notes": "Monthly Income",
+      "type": "Primary",
+      "id": "3ce8"
+    },
+    {
+      "type": "Primary",
+      "notes": "Monthly Income",
+      "currency": "INR",
+      "amount": 105000,
+      "sourceOfIncome": "Salary",
+      "date": "2025-06-01",
+      "id": "6937"
+    },
+    {
+      "date": "2025-06-20",
+      "sourceOfIncome": "Other",
+      "amount": 5000,
+      "currency": "INR",
+      "notes": "Client Working ",
+      "type": "Secondary",
+      "id": "aad7"
+    }
+  ],
+  "expenses": [
+    {
+      "date": "2025-06-21",
+      "category": "Housing",
+      "subcategory": "Rent",
+      "description": "Home Rent",
+      "amount": 14000,
+      "currency": "INR",
+      "id": "af8d",
+      "type": "Expense"
+    }
+  ],
+  "savings": [
+    {
+      "notes": "",
+      "account": "",
+      "maturityDate": "2025-06-27",
+      "targetDate": "",
+      "interestRate": 8,
+      "targetAmount": 66997,
+      "goalName": "Chitnamee",
+      "vendorName": "tete",
+      "numberOfMonths": 11,
+      "interestAmount": 6000,
+      "category": "Gold",
+      "savingType": "Recurring",
+      "currency": "INR",
+      "amount": 9000,
+      "title": "dddf",
+      "date": "2025-06-20",
+      "id": "d4ff"
+    }
+  ]
+}
