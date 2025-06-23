@@ -184,5 +184,35 @@
       "notes": "Test",
       "id": "8b69"
     }
+  ],
+  "users": [
+    {
+      "id": "user-123",
+      "firstname": "Raghu",
+      "lastname": "S",
+      "email": "raghu@example.com",
+      "mobileNumber": "9876543210",
+      "username": "raghus",
+      "password": "secret",
+      "isCoupleModeEnabled": true,
+      "preferredCurrency": "INR",
+      "incomeGoal": 100000,
+      "savingGoal": 20000,
+      "investmentGoal": 30000
+    },
+    {
+      "id": "3cee32b2-ee98-40b6-b8ec-5015fa3acf38",
+      "firstname": "Raghu",
+      "lastname": "s",
+      "email": "raghus@inventsoftlabs.com",
+      "mobileNumber": "06382536697",
+      "username": "RaghuJack",
+      "password": "raghu@1234",
+      "isCoupleModeEnabled": true,
+      "preferredCurrency": "INR",
+      "incomeGoal": "500",
+      "savingGoal": "7000",
+      "investmentGoal": "9000"
+    }
   ]
 }

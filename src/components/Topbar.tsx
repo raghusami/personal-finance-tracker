@@ -1,8 +1,18 @@
 // components/Topbar.tsx
+import { useNavigate } from "react-router-dom";
 import { FiBell, FiSettings, FiMessageSquare } from "react-icons/fi";
 import { BsSun } from "react-icons/bs";
 
 const Topbar = () => {
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    localStorage.removeItem("user"); // Clear saved login
+    navigate("/login"); // Redirect to login
+  };
+   const handleProfileClick = () => {
+    navigate("/users/profile"); // Redirect to user profile 
+   };
   return (
     <div className="navbar bg-base-100 border-b border-gray-200 px-6 sticky top-1 z-50 h-16">
       {/* Left spacer (or logo if needed later) */}
@@ -10,17 +20,12 @@ const Topbar = () => {
 
       {/* Right: Icons + User */}
       <div className="flex items-center gap-4">
-        {/* Theme Switch */}
         <button className="btn btn-ghost btn-circle">
           <BsSun size={18} />
         </button>
-
-        {/* Chat Icon */}
         <button className="btn btn-ghost btn-circle">
           <FiMessageSquare size={18} />
         </button>
-
-        {/* Settings Icon */}
         <button className="btn btn-ghost btn-circle">
           <FiSettings size={18} />
         </button>
@@ -33,7 +38,7 @@ const Topbar = () => {
           <span className="badge badge-xs badge-error absolute top-1 right-1"></span>
         </div>
 
-        {/* User Profile Dropdown */}
+        {/* User Dropdown */}
         <div className="dropdown dropdown-end">
           <label tabIndex={0} className="flex items-center cursor-pointer gap-2">
             <div className="avatar">
@@ -48,11 +53,11 @@ const Topbar = () => {
           </label>
           <ul
             tabIndex={0}
-            className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52"
+            className="menu menu-md dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52"
           >
-            <li><a>Profile</a></li>
+            <li onClick={handleProfileClick}><a>Profile</a></li>
             <li><a>Settings</a></li>
-            <li><a>Logout</a></li>
+            <li><button onClick={handleLogout}>Logout</button></li>
           </ul>
         </div>
       </div>

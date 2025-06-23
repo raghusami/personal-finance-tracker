@@ -15,45 +15,52 @@ import ListSavingPayments from '../pages/SavingPayment/ListSavingPayments'; //  
 import AddEditInvestment from "../pages/Investment/AddEditInvestment";  
 import ListInvestment from "../pages/Investment/ListInvestment"; //  New component for listing investments
 import LandingPage from "../pages/Auth/LandingPage";
+import UserProfile  from "../pages/Auth/ProfilePage"; //  Assuming you have a UserProfile type defined
 
-const AppRoutes = () => (
-  <Routes>
-    <Route path="/login" element={<Login />} />
-    <Route path="/register" element={<Register />} />
-    <Route path="/landingpage" element={<LandingPage />} />
+const AppRoutes = () => ( 
+ <Routes>
+  {/* Public Routes */}
+  <Route path="/" element={<LandingPage />} />
+  <Route path="/login" element={<Login />} />
+  <Route path="/register" element={<Register />} />
 
+  {/* Protected Routes inside Layout */}
     <Route path="/" element={<Layout />}>
-      <Route path="dashboard" element={<Dashboard />} />
+    <Route path="dashboard" element={<Dashboard />} />
 
-      {/*  Add/Edit Salary Routes */}
-      <Route path="salary" element={<AddEditSalary />} />
-      <Route path="salary/edit/:id" element={<AddEditSalary />} />
-      <Route path="salary/list" element={<SalaryList />} />
+    {/* Profile Route (Fix applied here) */}
+    <Route path="users/profile" element={<UserProfile />} />
 
-      {/*  Add/Edit Expenses Routes */}
-      <Route path="expenses" element={<AddEditExpense />} />
-      <Route path="expenses/edit/:id" element={<AddEditExpense />} />
-      <Route path="expenses/list" element={<ListExpenses />} />
+    {/* Salary Routes */}
+    <Route path="salary" element={<AddEditSalary />} />
+    <Route path="salary/edit/:id" element={<AddEditSalary />} />
+    <Route path="salary/list" element={<SalaryList />} />
 
-      <Route path="savings" element={<AddEditSaving />} />
-      <Route path="savings/edit/:id" element={<AddEditSaving />} />
-      <Route path="savings/list" element={<ListSaving />} />
+    {/* Expense Routes */}
+    <Route path="expenses" element={<AddEditExpense />} />
+    <Route path="expenses/edit/:id" element={<AddEditExpense />} />
+    <Route path="expenses/list" element={<ListExpenses />} />
 
-      <Route path="saving-payments" element={<SavingPayments />} />
-      <Route path="saving-payments/edit/:id" element={<SavingPayments />} />
-      <Route path="saving-payments/list" element={<ListSavingPayments />} />
+    {/* Saving Routes */}
+    <Route path="savings" element={<AddEditSaving />} />
+    <Route path="savings/edit/:id" element={<AddEditSaving />} />
+    <Route path="savings/list" element={<ListSaving />} />
 
+    {/* Saving Payment Routes */}
+    <Route path="saving-payments" element={<SavingPayments />} />
+    <Route path="saving-payments/edit/:id" element={<SavingPayments />} />
+    <Route path="saving-payments/list" element={<ListSavingPayments />} />
 
-      <Route path="investments" element={<AddEditInvestment />} />
-      <Route path="investments/edit/:id" element={<AddEditInvestment />} />
-      <Route path="investments/list" element={<ListInvestment />} />
+    {/* Investment Routes */}
+    <Route path="investments" element={<AddEditInvestment />} />
+    <Route path="investments/edit/:id" element={<AddEditInvestment />} />
+    <Route path="investments/list" element={<ListInvestment />} />
 
+    {/* Category Manager */}
+    <Route path="categorymanager" element={<CategoryManager />} />
+  </Route>
+</Routes>
 
-      {/* Other routes */}
-      <Route path="categorymanager" element={<CategoryManager />} />
-      
-    </Route>
-  </Routes>
 );
 
 export default AppRoutes;
