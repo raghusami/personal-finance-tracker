@@ -1,7 +1,9 @@
 // components/Sidebar.tsx
 import { Link, useLocation } from "react-router-dom";
 import { useState } from "react";
-import { FiHome, FiDollarSign, FiFileText, FiSettings, FiHelpCircle } from "react-icons/fi";
+import {
+  FiHome, FiDollarSign, FiFileText, FiSettings, FiHelpCircle,
+} from "react-icons/fi";
 import { BsPiggyBank } from "react-icons/bs";
 import { AiOutlineMenu } from "react-icons/ai";
 import clsx from "clsx";
@@ -10,34 +12,49 @@ const Sidebar = () => {
   const [collapsed, setCollapsed] = useState(false);
   const location = useLocation();
 
-  const menuSections = [
+  const sections = [
     {
-      title: "Apps",
+      title: "Overview",
       items: [
         { name: "Dashboard", path: "/dashboard", icon: <FiHome /> },
-        { name: "Income", path: "/salary/list", icon: <FiDollarSign /> },
-        { name: "Expense", path: "/expenses/list", icon: <FiFileText /> },
-        { name: "Saving", path: "/savings/list", icon: <BsPiggyBank /> },
-        { name: "Saving Payments", path: "/saving-payments/list", icon: <FiFileText /> },
-        { name: "Investments", path: "/investments/list", icon: <FiDollarSign /> }
       ],
     },
     {
-      title: "Other",
+      title: "Money Flow",
       items: [
-        { name: "Settings", path: "/categorymanager", icon: <FiSettings /> },
+        { name: "Income", path: "/salary/list", icon: <FiDollarSign /> },
+        { name: "Expense", path: "/expenses/list", icon: <FiFileText /> },
+        { name: "Budget", path: "/budget-period/list", icon: <FiFileText /> },
+      ],
+    },
+    {
+      title: "Savings & Goals",
+      items: [
+        { name: "Saving", path: "/savings/list", icon: <BsPiggyBank /> },
+        { name: "Saving Payments", path: "/saving-payments/list", icon: <FiFileText /> },
+        { name: "Goals", path: "/goal/list", icon: <FiFileText /> },
+      ],
+    },
+    {
+      title: "Investments",
+      items: [
+        { name: "Investments", path: "/investments/list", icon: <FiDollarSign /> },
+      ],
+    },
+    {
+      title: "Settings",
+      items: [
+        { name: "Category Manager", path: "/categorymanager", icon: <FiSettings /> },
         { name: "Get Help", path: "/help", icon: <FiHelpCircle /> },
       ],
     },
   ];
 
   return (
-    <aside
-      className={clsx(
-        "bg-base-100 border-r border-base-200 h-screen flex flex-col shadow-md transition-all duration-300",
-        collapsed ? "w-20" : "w-64"
-      )}
-    >
+    <aside className={clsx(
+      "bg-base-100 border-r border-base-200 h-screen flex flex-col shadow-md transition-all duration-300",
+      collapsed ? "w-20" : "w-64"
+    )}>
       {/* Header */}
       <div className="flex items-center justify-between px-4 py-5">
         {!collapsed && (
@@ -50,10 +67,10 @@ const Sidebar = () => {
         </button>
       </div>
 
-      {/* Menu */}
+      {/* Menu Sections */}
       <div className="flex-1 overflow-y-auto">
-        {menuSections.map((section, index) => (
-          <div key={index} className="px-3 pt-4">
+        {sections.map((section, i) => (
+          <div key={i} className="px-3 pt-4">
             {!collapsed && (
               <p className="text-xs uppercase text-base-content/60 mb-2 px-2">
                 {section.title}

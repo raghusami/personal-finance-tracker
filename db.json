@@ -205,5 +205,36 @@
       "savingGoal": "7000",
       "investmentGoal": "9000"
     }
+  ],
+  "goals": [
+    {
+      "id": "goal-123",
+      "name": "Buy a new car",
+      "targetAmount": 500000,
+      "currentAmount": 200000,
+      "targetDate": "2025-12-31",
+      "status": "In Progress",
+      "userId": "user-123"
+    },
+    {
+      "id": "goal-456",
+      "name": "Emergency Fund",
+      "targetAmount": 300000,
+      "currentAmount": 150000,
+      "targetDate": "2026-06-30",
+      "status": "In Progress",
+      "userId": "user-123"
+    }
+  ],
+  "budgets": [
+    {
+      "id": "c08d",
+      "durationType": "monthly",
+      "notes": "dgdf",
+      "amount": 10000,
+      "category": "Personal",
+      "toDate": "2025-07-24",
+      "fromDate": "2025-06-24"
+    }
   ]
 }

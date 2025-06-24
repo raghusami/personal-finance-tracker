@@ -16,6 +16,12 @@ import AddEditInvestment from "../pages/Investment/AddEditInvestment";
 import ListInvestment from "../pages/Investment/ListInvestment"; //  New component for listing investments
 import LandingPage from "../pages/Auth/LandingPage";
 import  UserProfile from "../pages/Auth/ProfilePage"; //  New component for user profile
+import AddEditGoal from "../pages/GoalPlan/AddEditGoal";
+import ListGoal from "../pages/GoalPlan/ListGoal"; //  New component for listing goals
+import AddEditBudgetPeriod from "../pages/BudgetPeriod/AddEditBudgetPeriod";  //  New component for adding/editing budget periods
+import ListBudgetPeriod from "../pages/BudgetPeriod/ListBudgetPeriod"; //  New component for listing budget periods
+
+
 
 const AppRoutes = () => (
   <Routes>
@@ -50,6 +56,14 @@ const AppRoutes = () => (
       <Route path="investments/edit/:id" element={<AddEditInvestment />} />
       <Route path="investments/list" element={<ListInvestment />} />
 
+      <Route path="goal" element={<AddEditGoal />} />
+      <Route path="goal/edit/:id" element={<AddEditGoal />} />
+      <Route path="goal/list" element={<ListGoal />} />
+      
+      <Route path="budget-period" element={<AddEditBudgetPeriod />} />
+      <Route path="budget-period/edit/:id" element={<AddEditBudgetPeriod />} />
+      <Route path="budget-period/list" element={<ListBudgetPeriod />} />
+      
 
       {/* Other routes */}
       <Route path="categorymanager" element={<CategoryManager />} />

@@ -46,25 +46,26 @@ const LandingPage = () => {
         <meta name="description" content="Track income, manage expenses, grow savings and investments with FinVista." />
       </Helmet>
 
-      {/* Top Navbar */}
-      <header className="flex justify-between items-center px-6 py-4 bg-base-100 sticky top-0 z-50 shadow-sm">
+      {/* Navbar */}
+      <header className="flex justify-between items-center px-6 py-4 bg-base-100 sticky top-0 z-50">
         <img src={logo} alt="FinVista Logo" className="h-12" />
         <nav className="hidden md:flex gap-6 items-center">
           <a href="#features" className="hover:text-primary">Features</a>
           <a href="#preview" className="hover:text-primary">Preview</a>
           <a href="#testimonials" className="hover:text-primary">Testimonials</a>
+          <a href="#tips" className="hover:text-primary">Tips</a>
           <a href="#newsletter" className="hover:text-primary">Contact</a>
         </nav>
         <div className="md:hidden">
-          <button className="btn btn-sm btn-outline">☰</button>
+          <button className="btn btn-sm btn-outline" aria-label="Open menu">☰</button>
         </div>
         <div className="hidden md:flex gap-3 items-center">
-          <a href="/login" className="btn btn-sm btn-outline">Login</a>
-          <a href="/register" className="btn btn-sm btn-primary">Sign Up</a>
+          <a href="/login" className="btn btn-sm btn-outline" aria-label="Login">Login</a>
+          <a href="/register" className="btn btn-sm btn-primary" aria-label="Sign up for FinVista">Sign Up</a>
         </div>
       </header>
 
-      {/* Hero Section */}
+      {/* Hero */}
       <motion.section className="min-h-[80vh] bg-base-200 flex items-center justify-center px-6" initial="hidden" whileInView="show" viewport={{ once: true }} variants={fadeInUp}>
         <div className="text-center max-w-2xl">
           <h1 className="text-5xl font-bold">
@@ -73,8 +74,9 @@ const LandingPage = () => {
           <p className="mt-4 text-lg">
             Track income, manage expenses, grow your savings and investments — all in one place.
           </p>
+          <p className="text-sm text-base-content/70 mt-2">Still wondering where your money goes? FinVista gives you answers instantly.</p>
           <div className="mt-6 flex justify-center gap-4">
-            <a href="/register" className="btn btn-primary">Get Started</a>
+            <motion.a whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} href="/register" className="btn btn-primary">Get Started</motion.a>
             <a href="/login" className="btn btn-outline">Login</a>
           </div>
         </div>
@@ -131,6 +133,50 @@ const LandingPage = () => {
         </div>
       </motion.section>
 
+      {/* Smart Finance Tips */}
+      <motion.section id="tips" className="py-12 bg-base-100 px-6" initial="hidden" whileInView="show" viewport={{ once: true }} variants={fadeInUp}>
+        <h3 className="text-2xl font-bold mb-4 text-center">💡 Learn While You Track</h3>
+        <p className="text-center text-base-content/70 mb-8">
+          Get bite-sized finance tips every time you open the app.
+        </p>
+        <div className="max-w-3xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-4 text-sm text-base-content/80">
+          {["What is budgeting and why it matters", "Smart ways to save ₹1,000 every month", "Start investing with just ₹500", "Understanding inflation, mutual funds, and credit scores", "Simple budget planning based on your income", "Common money mistakes and how to avoid them"].map((tip, idx) => (
+            <div key={idx} className="flex items-start gap-3">
+              <span className="w-2 h-2 mt-2 rounded-full bg-primary shrink-0"></span>
+              <p>{tip}</p>
+            </div>
+          ))}
+        </div>
+      </motion.section>
+
+      {/* Financial Wisdom Section */}
+      <motion.section id="financial-wisdom" className="py-12 bg-base-200 px-6" initial="hidden" whileInView="show" viewport={{ once: true }} variants={fadeInUp}>
+        <h3 className="text-2xl font-bold text-center mb-4">📘 Financial Wisdom for Everyday Life</h3>
+        <p className="text-center text-base-content/70 mb-8 max-w-3xl mx-auto">
+          Simple insights from <strong>Rich Dad Poor Dad</strong> and <strong>The Psychology of Money</strong> — directly applied to your financial journey.
+        </p>
+        <div className="grid md:grid-cols-2 gap-6 max-w-5xl mx-auto">
+          {[{
+            title: "📊 Assets vs. Liabilities",
+            tip: "Assets put money in your pocket. Liabilities take it out. Start tracking wisely today.",
+          }, {
+            title: "🧠 Behavior > Math",
+            tip: "Consistency in saving is more powerful than high income. Habit > Hustle.",
+          }, {
+            title: "🚪 Room for Error",
+            tip: "Always keep a safety fund. Life is uncertain — your money plan shouldn't be.",
+          }, {
+            title: "💸 Wealth is What You Don’t See",
+            tip: "Real wealth is built silently — not by spending, but by saving and investing.",
+          }].map((card, i) => (
+            <div key={i} className="card bg-base-100 shadow hover:shadow-md border border-base-300 p-5 transition">
+              <h4 className="text-lg font-semibold mb-2">{card.title}</h4>
+              <p className="text-sm text-base-content/80">{card.tip}</p>
+            </div>
+          ))}
+        </div>
+      </motion.section>
+
       {/* Newsletter */}
       <motion.section id="newsletter" className="py-12 bg-base-100 text-center" initial="hidden" whileInView="show" viewport={{ once: true }} variants={fadeInUp}>
         <h3 className="text-2xl font-bold">Stay Updated with FinVista</h3>
@@ -149,6 +195,15 @@ const LandingPage = () => {
         <div className="mt-4">
           <a href="/register" className="btn btn-accent btn-wide">Create Account</a>
         </div>
+      </section>
+
+      {/* Mini Financial Awareness Quiz */}
+      <section className="py-10 bg-base-100 px-6 text-center">
+        <h3 className="text-xl font-semibold mb-2">📋 How Financially Aware Are You?</h3>
+        <p className="text-base-content/70 mb-4">
+          Answer 3 simple questions and get personalized tips.
+        </p>
+        <a href="/financial-quiz" className="btn btn-outline btn-primary">Take the Quiz</a>
       </section>
 
       {/* Footer */}
