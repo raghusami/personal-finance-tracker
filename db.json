@@ -1,31 +1,13 @@
 {
   "salaries": [
     {
-      "id": "8cd0",
-      "type": "Primary",
-      "notes": "Monthly Income",
-      "currency": "INR",
-      "amount": 94500,
+      "date": "2025-04-01",
       "sourceOfIncome": "Salary",
-      "date": "2025-02-01"
-    },
-    {
-      "id": "1929",
-      "type": "Primary",
-      "notes": "Monthly Income",
-      "currency": "INR",
       "amount": 94500,
-      "sourceOfIncome": "Salary",
-      "date": "2025-03-01"
-    },
-    {
-      "id": "d302",
-      "type": "Primary",
-      "notes": "Monthly Income",
       "currency": "INR",
-      "amount": 94500,
-      "sourceOfIncome": "Salary",
-      "date": "2025-04-01"
+      "notes": "Monthly Income",
+      "type": "Primary",
+      "id": "d302"
     },
     {
       "date": "2025-05-01",
@@ -37,13 +19,22 @@
       "id": "3ce8"
     },
     {
-      "type": "Primary",
-      "notes": "Monthly Income",
-      "currency": "INR",
-      "amount": 105000,
-      "sourceOfIncome": "Salary",
       "date": "2025-06-01",
+      "sourceOfIncome": "Salary",
+      "amount": 105000,
+      "currency": "INR",
+      "notes": "Monthly Income",
+      "type": "Primary",
       "id": "6937"
+    },
+    {
+      "date": "2025-06-24",
+      "sourceOfIncome": "Salary",
+      "amount": 6000,
+      "currency": "INR",
+      "notes": "nnn",
+      "type": "Primary",
+      "id": "8571"
     }
   ],
   "expenses": [

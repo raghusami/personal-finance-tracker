@@ -100,150 +100,149 @@ export default function CategoryManager() {
     });
   };
 
-  return (
-    <div className="p-6">
-  <PageHeader
-    title="Manage Expense Categories"
-    icon={<ShoppingCartIcon className="w-6 h-6" />}
-    breadcrumb={["Components", "Income", "Expense Categories" ]}
-  />
+ return (
+  <div className="p-6">
+    <PageHeader
+      title="Manage Expense Categories"
+      icon={<ShoppingCartIcon className="w-6 h-6" />}
+      breadcrumb={["Components", "Income", "Expense Categories"]}
+    />
 
-
-    <div className="card bg-white border border-gray-200 shadow-sm">
+    <div className="card bg-base-100 border border-base-200 shadow-sm">
       <div className="card-body">
- 
-      {data.map((item, i) => (
-        <div key={i} className="mb-1  rounded shadow-sm bg-white">
-          <div
-            className="flex justify-between items-center p-2 cursor-pointer"
-            onClick={() => setExpandedIndex(expandedIndex === i ? null : i)}
-          >
-            <div className="font-medium text-md">{item.category}</div>
-            <div className="flex gap-2">
-              <button
-                onClick={(e) => {
-                  e.stopPropagation();
-                  handleAddSubcategory(i);
-                }}
-                className="btn btn-xs btn-primary"
-              >
-                 <PlusIcon className="w-4 h-4 mr-2" /> Sub
-              </button>
-                          <button
-                          className="btn btn-xs btn-square btn-outline btn-primary tooltip"
-                          data-tip="Edit"
-                          onClick={(e) => {
-                  e.stopPropagation();
-                  handleEditCategory(i);
-                }}
-                        >
-                          <PencilSquareIcon className="h-4 w-4" />
-                        </button>
-               <button
-                          className="btn btn-xs btn-square btn-outline btn-error tooltip"
-                          data-tip="Delete"
-                          onClick={(e) => {
-                  e.stopPropagation();
-                  handleDeleteCategory(i);
-                }}
-                        >
-                          <TrashIcon className="h-4 w-4" />
-                        </button>
-              
+        {data.map((item, i) => (
+          <div key={i} className="mb-1 rounded shadow-sm bg-base-100 border border-base-200">
+            <div
+              className="flex justify-between items-center p-2 cursor-pointer"
+              onClick={() => setExpandedIndex(expandedIndex === i ? null : i)}
+            >
+              <div className="font-medium text-md text-base-content">{item.category}</div>
+              <div className="flex gap-2">
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleAddSubcategory(i);
+                  }}
+                  className="btn btn-xs btn-primary"
+                >
+                  <PlusIcon className="w-4 h-4 mr-1" /> Sub
+                </button>
+                <button
+                  className="btn btn-xs btn-square btn-outline btn-primary tooltip"
+                  data-tip="Edit"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleEditCategory(i);
+                  }}
+                >
+                  <PencilSquareIcon className="h-4 w-4" />
+                </button>
+                <button
+                  className="btn btn-xs btn-square btn-outline btn-error tooltip"
+                  data-tip="Delete"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleDeleteCategory(i);
+                  }}
+                >
+                  <TrashIcon className="h-4 w-4" />
+                </button>
+              </div>
             </div>
-          </div>
-          {expandedIndex === i && (
-            <div className="p-4">
-              {item.subcategories.length === 0 ? (
-                <p className="text-gray-500 text-sm">No subcategories added.</p>
-              ) : (
-                <ul className="list-disc list-inside space-y-2">
-                  {item.subcategories.map((sub, idx) => (
-                    <li
-                      key={idx}
-                      className="flex justify-between items-center"
-                    >
-                      <span>{sub}</span>
-                      <div className="flex gap-2">
-                         <button
-                          className="btn btn-xs btn-square btn-outline btn-primary tooltip"
-                          data-tip="Edit"
-                            onClick={() => handleEditSub(i, idx)}
-                        >
-                          <PencilSquareIcon className="h-4 w-4" />
-                        </button>
-               <button
-                          className="btn btn-xs btn-square btn-outline btn-error tooltip"
-                          data-tip="Delete"
-                          onClick={() => handleDeleteSub(i, idx)}
-                        >
-                          <TrashIcon className="h-4 w-4" />
-                        </button>
-                       
-                      </div>
-                    </li>
-                  ))}
-                </ul>
-              )}
-            </div>
-          )}
-        </div>
-      ))}
-     <div className="flex justify-left gap-3 pt-4">
-      <button onClick={handleAddCategory} className="btn btn-primary btn-md shadow hover:scale-105">
-        <PlusIcon className="w-4 h-4 mr-2" />
-        Add New Category
-      </button>
-      </div>
-      {/* Input Modal */}
-      {modalOpen && (
-        <dialog className="modal modal-open">
-          <div className="modal-box">
-            <h3 className="font-bold text-lg mb-2"> {modalTitle}</h3>
-            <input
-              type="text"
-              className="input input-bordered w-full"
-              value={modalValue}
-              onChange={(e) => setModalValue(e.target.value)}
-              placeholder="Enter name"
-            />
-            <div className="modal-action">
-              <button
-                className="btn btn-primary"
-                onClick={() => {
-                  modalOnConfirm(modalValue);
-                  setModalOpen(false);
-                }}
-              >
-                Save
-              </button>
-              <button className="btn btn-active" onClick={() => setModalOpen(false)}>
-                Cancel
-              </button>
-            </div>
-          </div>
-        </dialog>
-      )}
 
-      {/* Confirm Modal */}
-      {confirmOpen && (
-        <dialog className="modal modal-open">
-          <div className="modal-box">
-            <h3 className="text-lg">{confirmMessage}</h3>
-            <div className="modal-action">
-              <button className="btn btn-error" onClick={confirmOnYes}>
-                Yes
-              </button>
-              <button className="btn" onClick={() => setConfirmOpen(false)}>
-                No
-              </button>
-            </div>
+            {expandedIndex === i && (
+              <div className="p-4">
+                {item.subcategories.length === 0 ? (
+                  <p className="text-base-content/60 text-sm">No subcategories added.</p>
+                ) : (
+                  <ul className="list-disc list-inside space-y-2">
+                    {item.subcategories.map((sub, idx) => (
+                      <li key={idx} className="flex justify-between items-center">
+                        <span>{sub}</span>
+                        <div className="flex gap-2">
+                          <button
+                            className="btn btn-xs btn-square btn-outline btn-primary tooltip"
+                            data-tip="Edit"
+                            onClick={() => handleEditSub(i, idx)}
+                          >
+                            <PencilSquareIcon className="h-4 w-4" />
+                          </button>
+                          <button
+                            className="btn btn-xs btn-square btn-outline btn-error tooltip"
+                            data-tip="Delete"
+                            onClick={() => handleDeleteSub(i, idx)}
+                          >
+                            <TrashIcon className="h-4 w-4" />
+                          </button>
+                        </div>
+                      </li>
+                    ))}
+                  </ul>
+                )}
+              </div>
+            )}
           </div>
-        </dialog>
-      )}
-    </div>
+        ))}
+
+        <div className="flex justify-start gap-3 pt-4">
+          <button
+            onClick={handleAddCategory}
+            className="btn btn-primary btn-md shadow hover:scale-105 transition-transform"
+          >
+            <PlusIcon className="w-4 h-4 mr-2" />
+            Add New Category
+          </button>
+        </div>
+
+        {/* Input Modal */}
+        {modalOpen && (
+          <dialog className="modal modal-open">
+            <div className="modal-box bg-base-100 text-base-content">
+              <h3 className="font-bold text-lg mb-2">{modalTitle}</h3>
+              <input
+                type="text"
+                className="input input-bordered w-full"
+                value={modalValue}
+                onChange={(e) => setModalValue(e.target.value)}
+                placeholder="Enter name"
+              />
+              <div className="modal-action">
+                <button
+                  className="btn btn-primary"
+                  onClick={() => {
+                    modalOnConfirm(modalValue);
+                    setModalOpen(false);
+                  }}
+                >
+                  Save
+                </button>
+                <button className="btn btn-active" onClick={() => setModalOpen(false)}>
+                  Cancel
+                </button>
+              </div>
+            </div>
+          </dialog>
+        )}
+
+        {/* Confirm Modal */}
+        {confirmOpen && (
+          <dialog className="modal modal-open">
+            <div className="modal-box bg-base-100 text-base-content">
+              <h3 className="text-lg">{confirmMessage}</h3>
+              <div className="modal-action">
+                <button className="btn btn-error" onClick={confirmOnYes}>
+                  Yes
+                </button>
+                <button className="btn" onClick={() => setConfirmOpen(false)}>
+                  No
+                </button>
+              </div>
+            </div>
+          </dialog>
+        )}
+      </div>
     </div>
   </div>
+);
 
-  );
 }

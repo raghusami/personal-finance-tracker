@@ -11,6 +11,7 @@ import {
   CreditCardIcon,
   DocumentTextIcon,
 } from "@heroicons/react/24/solid";
+import ConfirmDeleteModal from "../../components/ConfirmDeleteModal";
 
 const ListSavingPayments = () => {
   const [paymentList, setPaymentList] = useState<SavingPayments[]>([]);
@@ -80,24 +81,8 @@ const ListSavingPayments = () => {
     }
   };
 
-  const ConfirmDeleteModal = ({ onConfirm, onCancel }: any) => (
-    <dialog className="modal modal-open">
-      <div className="modal-box">
-        <h3 className="font-bold text-lg">Confirm Deletion</h3>
-        <p className="py-4">Are you sure you want to delete this saving payment entry?</p>
-        <div className="modal-action">
-          <button className="btn btn-primary" onClick={onConfirm}>
-            Yes, Delete
-          </button>
-          <button className="btn" onClick={onCancel}>
-            Cancel
-          </button>
-        </div>
-      </div>
-    </dialog>
-  );
 
-  return (
+return (
     <div className="p-2">
       <PageHeader
         title="Saving Payments List"
@@ -105,7 +90,7 @@ const ListSavingPayments = () => {
         breadcrumb={["Components", "Saving Payments", "List"]}
       />
 
-      <div className="card bg-white border border-gray-200 shadow-sm">
+      <div className="card bg-base-100 border border-base-200 shadow-sm">
         <div className="card-body">
           {/* Filter */}
           <div className="flex flex-col md:flex-row items-center justify-between gap-2">
@@ -140,7 +125,7 @@ const ListSavingPayments = () => {
           </div>
 
           {/* Table */}
-          <div className="overflow-x-auto shadow-sm rounded-lg border border-base-200 mt-4">
+          <div className="overflow-x-auto mt-4 border border-base-200 rounded-lg">
             <table className="table table-zebra w-full">
               <thead className="bg-base-100 text-base-content">
                 <tr className="text-sm">
@@ -149,31 +134,29 @@ const ListSavingPayments = () => {
                   <th>Status</th>
                   <th>Method</th>
                   <th>Notes</th>
-                  <th className="text-center">Actions</th>
+                  <th className="text-right pr-4">Actions</th>
                 </tr>
               </thead>
               <tbody>
                 {paginatedData.length === 0 ? (
                   <tr>
-                    <td colSpan={6} className="text-center py-6 text-gray-500">
-                      <div className="text-center py-8 text-gray-500">
-                        <DocumentTextIcon className="h-10 w-10 mx-auto mb-2" />
-                        <p className="text-md">No saving payments found.</p>
-                        <button
-                          onClick={() => navigate("/saving-payments")}
-                          className="btn btn-primary mt-2"
-                        >
-                          <PlusIcon className="h-5 w-5 mr-1" />
-                          Add Your First Payment
-                        </button>
-                      </div>
+                    <td colSpan={6} className="text-center py-8 text-base-content opacity-60">
+                      <DocumentTextIcon className="h-10 w-10 mx-auto mb-2" />
+                      <p className="text-md">No saving payments found.</p>
+                      <button
+                        onClick={() => navigate("/saving-payments")}
+                        className="btn btn-primary mt-3"
+                      >
+                        <PlusIcon className="h-5 w-5 mr-1" />
+                        Add Your First Payment
+                      </button>
                     </td>
                   </tr>
                 ) : (
                   paginatedData.map((item) => (
                     <tr key={item.id} className="hover:bg-base-200 transition-all">
                       <td>{item.date}</td>
-                      <td className="badge badge-outline badge-primary badge-xs">
+                      <td className="font-semibold text-sm text-primary">
                         {new Intl.NumberFormat("en-IN", {
                           style: "currency",
                           currency: "INR",
@@ -194,11 +177,12 @@ const ListSavingPayments = () => {
                       </td>
                       <td>{item.paymentMethod}</td>
                       <td className="max-w-[180px] truncate">{item.notes || "-"}</td>
-                      <td className="flex gap-2 justify-center">
+                      <td className="flex justify-end gap-2 pr-4">
                         <button
                           className="btn btn-sm btn-square btn-outline btn-primary tooltip"
                           data-tip="Edit"
                           onClick={() => handleEdit(item.id)}
+                          aria-label="Edit"
                         >
                           <PencilSquareIcon className="h-4 w-4" />
                         </button>
@@ -206,6 +190,7 @@ const ListSavingPayments = () => {
                           className="btn btn-sm btn-square btn-outline btn-error tooltip"
                           data-tip="Delete"
                           onClick={() => handleDelete(item.id)}
+                          aria-label="Delete"
                         >
                           <TrashIcon className="h-4 w-4" />
                         </button>
@@ -223,9 +208,7 @@ const ListSavingPayments = () => {
               {[...Array(totalPages)].map((_, index) => (
                 <button
                   key={index}
-                  className={`btn btn-sm ${
-                    currentPage === index + 1 ? "btn-primary" : "btn-ghost"
-                  }`}
+                  className={`btn btn-sm ${currentPage === index + 1 ? "btn-primary" : "btn-ghost"}`}
                   onClick={() => setCurrentPage(index + 1)}
                 >
                   {index + 1}
@@ -239,6 +222,10 @@ const ListSavingPayments = () => {
       {/* Delete Modal */}
       {deleteId && (
         <ConfirmDeleteModal
+          title="Confirm Deletion"
+          message="Are you sure you want to delete this saving payment?"
+          confirmLabel="Yes, Delete"
+          cancelLabel="Cancel"
           onConfirm={handleConfirmDelete}
           onCancel={() => setDeleteId(null)}
         />

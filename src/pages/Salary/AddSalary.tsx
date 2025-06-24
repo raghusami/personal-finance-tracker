@@ -91,128 +91,120 @@ const AddEditSalary = () => {
     }
   };
 
-  return (
- <div className="flex flex-col gap-2 p-4">
-  <PageHeader
-    title={isEdit ? "Edit Income Entry" : "Add Income Entry"}
-    icon={<CurrencyRupeeIcon className="w-6 h-6" />}
-    breadcrumb={["Components", "Income", isEdit ? "Edit Income" : "Add Income"]}
-  />
+return (
+  <div className="flex flex-col gap-2 p-4">
+    <PageHeader
+      title={isEdit ? "Edit Income Entry" : "Add Income Entry"}
+      icon={<CurrencyRupeeIcon className="w-6 h-6" />}
+      breadcrumb={["Components", "Income", isEdit ? "Edit Income" : "Add Income"]}
+    />
 
-   <div className="flex justify-left">
-    <div className="card bg-white border border-gray-200 shadow-sm">
-      <div className="card-body">
-        {loading ? (
-          <p className="text-center text-sm text-gray-500">Loading form...</p>
-        ) : (
-          <form onSubmit={handleSubmit(onSubmit)} className="grid gap-5">
-            {/* Date */}
-            <div>
-              <label className="label font-semibold">Date</label>
-              <input
-                type="date"
-                {...register("date")}
-                className="input input-bordered w-full transition duration-200"
-              />
-              {errors.date && (
-                <p className="text-error text-xs mt-1">{errors.date.message}</p>
-              )}
-            </div>
-
-            {/* Source of Income */}
-            <div>
-              <label className="label font-semibold">Source of Income</label>
-              <select
-                {...register("sourceOfIncome")}
-                className="select select-bordered w-full"
-              >
-                <option value="Salary">Salary</option>
-                <option value="Freelance">Freelance</option>
-                <option value="Bonus">Bonus</option>
-                <option value="Gift">Gift</option>
-                <option value="Business">Business</option>
-                <option value="Other">Other</option>
-              </select>
-            </div>
-
-            {/* Amount & Currency */}
-            <div className="grid grid-cols-3 gap-4">
-              <div className="col-span-2">
-                <label className="label font-semibold">Amount</label>
+    <div className="flex justify-start">
+      <div className="card bg-base-100 border border-base-200 shadow-sm">
+        <div className="card-body">
+          {loading ? (
+            <p className="text-center text-sm text-base-content opacity-60">
+              Loading form...
+            </p>
+          ) : (
+            <form onSubmit={handleSubmit(onSubmit)} className="grid gap-5">
+              {/* Date */}
+              <div>
+                <label className="label font-semibold text-base-content">Date</label>
                 <input
-                  type="number"
-                  {...register("amount")}
+                  type="date"
+                  {...register("date")}
                   className="input input-bordered w-full"
-                  placeholder="Enter amount"
                 />
-                {errors.amount && (
-                  <p className="text-error text-xs mt-1">{errors.amount.message}</p>
+                {errors.date && (
+                  <p className="text-error text-xs mt-1">{errors.date.message}</p>
                 )}
               </div>
+
+              {/* Source of Income */}
               <div>
-                <label className="label font-semibold">Currency</label>
-                <select
-                  {...register("currency")}
-                  className="select select-bordered w-full"
-                >
-                  <option value="INR">INR</option>
-                  <option value="USD">USD</option>
-                  <option value="EUR">EUR</option>
+                <label className="label font-semibold text-base-content">Source of Income</label>
+                <select {...register("sourceOfIncome")} className="select select-bordered w-full">
+                  <option value="Salary">Salary</option>
+                  <option value="Freelance">Freelance</option>
+                  <option value="Bonus">Bonus</option>
+                  <option value="Gift">Gift</option>
+                  <option value="Business">Business</option>
+                  <option value="Other">Other</option>
                 </select>
               </div>
-            </div>
 
-            {/* Income Type */}
-            <div>
-              <label className="label font-semibold">Income Type</label>
-              <select
-                {...register("type")}
-                className="select select-bordered w-full"
-              >
-                <option value="Primary">Primary</option>
-                <option value="Secondary">Secondary</option>
-                <option value="Freelance">Freelance</option>
-                <option value="Bonus">Bonus</option>
-              </select>
-            </div>
+              {/* Amount & Currency */}
+              <div className="grid grid-cols-3 gap-4">
+                <div className="col-span-2">
+                  <label className="label font-semibold text-base-content">Amount</label>
+                  <input
+                    type="number"
+                    {...register("amount")}
+                    className="input input-bordered w-full"
+                    placeholder="Enter amount"
+                  />
+                  {errors.amount && (
+                    <p className="text-error text-xs mt-1">{errors.amount.message}</p>
+                  )}
+                </div>
+                <div>
+                  <label className="label font-semibold text-base-content">Currency</label>
+                  <select {...register("currency")} className="select select-bordered w-full">
+                    <option value="INR">INR</option>
+                    <option value="USD">USD</option>
+                    <option value="EUR">EUR</option>
+                  </select>
+                </div>
+              </div>
 
-            {/* Notes */}
-            <div>
-              <label className="label font-semibold">Notes</label>
-              <textarea
-                {...register("notes")}
-                className="textarea textarea-bordered w-full"
-                placeholder="Any additional comments..."
-                rows={3}
-              />
-            </div>
+              {/* Income Type */}
+              <div>
+                <label className="label font-semibold text-base-content">Income Type</label>
+                <select {...register("type")} className="select select-bordered w-full">
+                  <option value="Primary">Primary</option>
+                  <option value="Secondary">Secondary</option>
+                  <option value="Freelance">Freelance</option>
+                  <option value="Bonus">Bonus</option>
+                </select>
+              </div>
 
-            {/* Buttons */}
-            <div className="flex justify-end gap-3 pt-4">
-              <button
-                type="submit"
-                disabled={isSubmitting}
-                className={`btn btn-primary ${isSubmitting ? "loading" : ""}`}
-              >
-                {isEdit ? "Update Entry" : "Save Entry"}
-              </button>
-              <button
-                type="button"
-                onClick={() => reset()}
-                className="btn btn-active"
-              >
-                Cancel
-              </button>
-              
-            </div>
-          </form>
-        )}
+              {/* Notes */}
+              <div>
+                <label className="label font-semibold text-base-content">Notes</label>
+                <textarea
+                  {...register("notes")}
+                  className="textarea textarea-bordered w-full"
+                  placeholder="Any additional comments..."
+                  rows={3}
+                />
+              </div>
+
+              {/* Buttons */}
+              <div className="flex justify-end gap-3 pt-4">
+                <button
+                  type="submit"
+                  disabled={isSubmitting}
+                  className={`btn btn-primary ${isSubmitting ? "loading" : ""}`}
+                >
+                  {isEdit ? "Update Entry" : "Save Entry"}
+                </button>
+                <button
+                  type="button"
+                  onClick={() => reset()}
+                  className="btn btn-outline"
+                >
+                  Cancel
+                </button>
+              </div>
+            </form>
+          )}
+        </div>
       </div>
     </div>
   </div>
-</div>
+);
 
-  );
 };
 
 export default AddEditSalary;

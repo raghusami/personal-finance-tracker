@@ -88,81 +88,93 @@ const AddEditSavingPayment = () => {
 
   return (
     <div className="p-4">
-      <PageHeader
-        title={isEdit ? "Edit Saving Payment" : "Add Saving Payment"}
-        icon={<CreditCardIcon className="w-6 h-6" />}
-        breadcrumb={["Components", "Saving Payments", isEdit ? "Edit" : "Add"]}
-      />
-   <div className="flex justify-left">
-      <div className="card bg-white border border-gray-200 shadow-sm">
-        <div className="card-body">
-          {loading ? (
-            <p className="text-center text-sm text-gray-500">Loading form...</p>
-          ) : (
-            <form onSubmit={handleSubmit(onSubmit)} className="grid gap-6 md:grid-cols-2">
-              <div>
-                <label className="label font-semibold">Saving ID</label>
-                <input {...register("savingId")} className="input input-bordered w-full" />
-                {errors.savingId && <p className="text-error text-xs mt-1">{errors.savingId.message}</p>}
-              </div>
+  <PageHeader
+    title={isEdit ? "Edit Saving Payment" : "Add Saving Payment"}
+    icon={<CreditCardIcon className="w-6 h-6" />}
+    breadcrumb={["Components", "Saving Payments", isEdit ? "Edit" : "Add"]}
+  />
 
-              <div>
-                <label className="label font-semibold">Date</label>
-                <input type="date" {...register("date")} className="input input-bordered w-full" />
-                {errors.date && <p className="text-error text-xs mt-1">{errors.date.message}</p>}
-              </div>
+  <div className="flex justify-left">
+    <div className="card bg-base-100 border border-base-200 shadow-sm w-full">
+      <div className="card-body text-base-content">
+        {loading ? (
+          <p className="text-center text-sm text-base-content/60">Loading form...</p>
+        ) : (
+          <form onSubmit={handleSubmit(onSubmit)} className="grid gap-6 md:grid-cols-2">
+            {/* Saving ID */}
+            <div>
+              <label className="label font-semibold">Saving ID</label>
+              <input {...register("savingId")} className="input input-bordered w-full" />
+              {errors.savingId && <p className="text-error text-xs mt-1">{errors.savingId.message}</p>}
+            </div>
 
-              <div>
-                <label className="label font-semibold">Amount</label>
-                <input type="number" {...register("amount")} className="input input-bordered w-full" />
-                {errors.amount && <p className="text-error text-xs mt-1">{errors.amount.message}</p>}
-              </div>
+            {/* Date */}
+            <div>
+              <label className="label font-semibold">Date</label>
+              <input type="date" {...register("date")} className="input input-bordered w-full" />
+              {errors.date && <p className="text-error text-xs mt-1">{errors.date.message}</p>}
+            </div>
 
-              <div>
-                <label className="label font-semibold">Status</label>
-                <select {...register("status")} className="select select-bordered w-full">
-                  <option value="Pending">Pending</option>
-                  <option value="Completed">Completed</option>
-                  <option value="Failed">Failed</option>
-                </select>
-                {errors.status && <p className="text-error text-xs mt-1">{errors.status.message}</p>}
-              </div>
+            {/* Amount */}
+            <div>
+              <label className="label font-semibold">Amount</label>
+              <input type="number" {...register("amount")} className="input input-bordered w-full" />
+              {errors.amount && <p className="text-error text-xs mt-1">{errors.amount.message}</p>}
+            </div>
 
-                        <div>
-            <label className="label font-semibold">Payment Method</label>
-            <select {...register("paymentMethod")} className="select select-bordered w-full">
+            {/* Status */}
+            <div>
+              <label className="label font-semibold">Status</label>
+              <select {...register("status")} className="select select-bordered w-full">
+                <option value="Pending">Pending</option>
+                <option value="Completed">Completed</option>
+                <option value="Failed">Failed</option>
+              </select>
+              {errors.status && <p className="text-error text-xs mt-1">{errors.status.message}</p>}
+            </div>
+
+            {/* Payment Method */}
+            <div>
+              <label className="label font-semibold">Payment Method</label>
+              <select {...register("paymentMethod")} className="select select-bordered w-full">
                 <option value="">Select Method</option>
                 <option value="Cash">Cash</option>
                 <option value="UPI">UPI</option>
                 <option value="Bank Transfer">Bank Transfer</option>
                 <option value="Cheque">Cheque</option>
                 <option value="Other">Other</option>
-            </select>
-            {errors.paymentMethod && (
+              </select>
+              {errors.paymentMethod && (
                 <p className="text-error text-xs mt-1">{errors.paymentMethod.message}</p>
-            )}
+              )}
             </div>
 
+            {/* Notes */}
+            <div className="md:col-span-2">
+              <label className="label font-semibold">Notes</label>
+              <textarea {...register("notes")} className="textarea textarea-bordered w-full" rows={3} />
+            </div>
 
-              <div className="md:col-span-2">
-                <label className="label font-semibold">Notes</label>
-                <textarea {...register("notes")} className="textarea textarea-bordered w-full" rows={3} />
-              </div>
-
-              <div className="md:col-span-2 flex justify-end gap-3">
-                <button type="submit" disabled={isSubmitting} className={`btn btn-primary ${isSubmitting ? "loading" : ""}`}>
-                  {isEdit ? "Update Payment" : "Save Payment"}
-                </button>
-                <button type="button" onClick={() => reset()} className="btn">
-                  Cancel
-                </button>
-              </div>
-            </form>
-          )}
-        </div>
+            {/* Buttons */}
+            <div className="md:col-span-2 flex justify-end gap-3 pt-2">
+              <button
+                type="submit"
+                disabled={isSubmitting}
+                className={`btn btn-primary ${isSubmitting ? "loading" : ""}`}
+              >
+                {isEdit ? "Update Payment" : "Save Payment"}
+              </button>
+              <button type="button" onClick={() => reset()} className="btn btn-active">
+                Cancel
+              </button>
+            </div>
+          </form>
+        )}
       </div>
     </div>
-</div>
+  </div>
+    </div>
+
   );
 };
 

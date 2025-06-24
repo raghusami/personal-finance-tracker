@@ -1,27 +1,29 @@
 import Sidebar from "./Sidebar";
-import Topbar from "./Topbar"; // <-- You already imported this
-import Footer from "./Footer"; // Assuming you have a Footer component
+import Topbar from "./Topbar";
+import Footer from "./Footer";
 import { Outlet } from "react-router-dom";
 
 const Layout = () => {
   return (
-    <div className="flex flex-col h-screen">
+    <div className="flex flex-col h-screen bg-base-100 text-base-content">
       <div className="flex flex-1 overflow-hidden">
         {/* Sidebar */}
         <Sidebar />
+
         {/* Main Content Area */}
         <div className="flex flex-col flex-1 overflow-hidden">
           {/* Topbar: Search, Notification, Profile */}
           <Topbar />
 
-          {/* Outlet for page content */}
-          <main className="flex-1 overflow-y-auto p-6 bg-gray-50">
-            {/* Layout.tsx or App.tsx */}
-           <div id="daisy-toast" className="toast toast-top toast-end z-50" />
-
+          {/* Main Page Content */}
+          <main className="flex-1 overflow-y-auto p-6 bg-base-200">
+            {/* Toast notifications */}
+           <div id="daisy-toast" className="fixed top right-4 z-50 max-w-sm w-full"></div>
             <Outlet />
           </main>
-           <Footer />
+
+          {/* Footer */}
+          <Footer />
         </div>
       </div>
     </div>

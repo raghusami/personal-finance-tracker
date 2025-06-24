@@ -11,6 +11,7 @@ import {
   ChartBarIcon,
   DocumentTextIcon,
 } from "@heroicons/react/24/solid";
+import ConfirmDeleteModal from "../../components/ConfirmDeleteModal";
 
 const ListInvestment = () => {
   const [investmentList, setInvestmentList] = useState<Investment[]>([]);
@@ -85,164 +86,154 @@ const ListInvestment = () => {
     }
   };
 
-  const ConfirmDeleteModal = ({ onConfirm, onCancel }: any) => (
-    <dialog className="modal modal-open">
-      <div className="modal-box">
-        <h3 className="font-bold text-lg">Confirm Deletion</h3>
-        <p className="py-4">Are you sure you want to delete this investment record?</p>
-        <div className="modal-action">
-          <button className="btn btn-primary" onClick={onConfirm}>Yes, Delete</button>
-          <button className="btn" onClick={onCancel}>Cancel</button>
-        </div>
-      </div>
-    </dialog>
-  );
+ return (
+  <div className="p-2">
+    <PageHeader
+      title="Investment List"
+      icon={<ChartBarIcon className="w-6 h-6" />}
+      breadcrumb={["Components", "Investments", "List"]}
+    />
 
-  return (
-    <div className="p-2">
-      <PageHeader
-        title="Investment List"
-        icon={<ChartBarIcon className="w-6 h-6" />}
-        breadcrumb={["Components", "Investments", "List"]}
-      />
-
-      {/* Summary Card */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-4">
-        <div className="stats bg-base-200 shadow-md">
-          <div className="stat">
-            <div className="stat-title">Total Invested Amount</div>
-            <div className="stat-value text-primary">
-              ₹ {totalAmount.toLocaleString("en-IN")}
-            </div>
+    {/* Summary Card */}
+    <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-4">
+      <div className="stats bg-base-200 text-base-content shadow-md">
+        <div className="stat">
+          <div className="stat-title">Total Invested Amount</div>
+          <div className="stat-value text-primary">
+            ₹ {totalAmount.toLocaleString("en-IN")}
           </div>
         </div>
       </div>
+    </div>
 
-      <div className="card bg-white border border-gray-200 shadow-sm">
-        <div className="card-body">
-          {/* Filters */}
-          <div className="flex flex-col md:flex-row items-center justify-between gap-2">
-            <div className="flex gap-2 w-full md:w-auto">
-              <input
-                type="text"
-                className="input input-bordered w-full"
-                placeholder="Search by platform or notes"
-                value={search}
-                onChange={(e) => setSearch(e.target.value)}
-              />
-              <select
-                className="select select-bordered"
-                value={filterType}
-                onChange={(e) => setFilterType(e.target.value)}
-              >
-                <option value="All">All Types</option>
-                <option value="Mutual Fund">Mutual Fund</option>
-                <option value="Stock">Stock</option>
-                <option value="Gold">Gold</option>
-                <option value="Real Estate">Real Estate</option>
-              </select>
-            </div>
-
-            <button
-              className="btn btn-primary shadow hover:scale-105 transition-transform"
-              onClick={() => navigate("/investments")}
+    <div className="card bg-base-100 border border-base-200 shadow-sm">
+      <div className="card-body">
+        {/* Filters */}
+        <div className="flex flex-col md:flex-row items-center justify-between gap-2">
+          <div className="flex gap-2 w-full md:w-auto">
+            <input
+              type="text"
+              className="input input-bordered w-full"
+              placeholder="Search by platform or notes"
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+            />
+            <select
+              className="select select-bordered"
+              value={filterType}
+              onChange={(e) => setFilterType(e.target.value)}
             >
-              <PlusIcon className="h-5 w-5" />
-              <span className="ml-2">Add Investment</span>
-            </button>
+              <option value="All">All Types</option>
+              <option value="Mutual Fund">Mutual Fund</option>
+              <option value="Stock">Stock</option>
+              <option value="Gold">Gold</option>
+              <option value="Real Estate">Real Estate</option>
+            </select>
           </div>
 
-          {/* Table */}
-          <div className="overflow-x-auto shadow-sm rounded-lg border border-base-200 mt-4">
-            <table className="table table-zebra w-full">
-              <thead className="bg-base-100 text-base-content">
-                <tr className="text-sm">
-                  <th>Date</th>
-                  <th>Amount</th>
-                  <th>Type</th>
-                  <th>Platform</th>
-                  <th>Notes</th>
-                  <th className="text-center">Actions</th>
+          <button
+            className="btn btn-primary shadow hover:scale-105 transition-transform"
+            onClick={() => navigate("/investments")}
+          >
+            <PlusIcon className="h-5 w-5" />
+            <span className="ml-2">Add Investment</span>
+          </button>
+        </div>
+
+        {/* Table */}
+        <div className="overflow-x-auto shadow-sm rounded-lg border border-base-200 mt-4">
+          <table className="table table-zebra w-full">
+            <thead className="bg-base-100 text-base-content">
+              <tr className="text-sm">
+                <th>Date</th>
+                <th>Amount</th>
+                <th>Type</th>
+                <th>Platform</th>
+                <th>Notes</th>
+                <th className="text-center">Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              {paginatedData.length === 0 ? (
+                <tr>
+                  <td colSpan={6} className="text-center py-6 text-base-content/60">
+                    <div className="text-center py-8">
+                      <DocumentTextIcon className="h-10 w-10 mx-auto mb-2" />
+                      <p className="text-md">No investments found.</p>
+                      <button
+                        onClick={() => navigate("/investments")}
+                        className="btn btn-primary mt-2"
+                      >
+                        <PlusIcon className="h-5 w-5 mr-1" />
+                        Add Your First Investment
+                      </button>
+                    </div>
+                  </td>
                 </tr>
-              </thead>
-              <tbody>
-                {paginatedData.length === 0 ? (
-                  <tr>
-                    <td colSpan={6} className="text-center py-6 text-gray-500">
-                      <div className="text-center py-8 text-gray-500">
-                        <DocumentTextIcon className="h-10 w-10 mx-auto mb-2" />
-                        <p className="text-md">No investments found.</p>
-                        <button
-                          onClick={() => navigate("/investments")}
-                          className="btn btn-primary mt-2"
-                        >
-                          <PlusIcon className="h-5 w-5 mr-1" />
-                          Add Your First Investment
-                        </button>
-                      </div>
+              ) : (
+                paginatedData.map((item) => (
+                  <tr key={item.id} className="hover:bg-base-200 transition-all">
+                    <td>{item.date}</td>
+                    <td className="badge badge-outline badge-primary badge-xs">
+                      ₹ {item.amount.toLocaleString("en-IN")}
+                    </td>
+                    <td>{item.investmentType}</td>
+                    <td>{item.platform}</td>
+                    <td className="max-w-[180px] truncate">{item.notes || "-"}</td>
+                    <td className="flex gap-2 justify-center">
+                      <button
+                        className="btn btn-sm btn-square btn-outline btn-primary tooltip"
+                        data-tip="Edit"
+                        onClick={() => handleEdit(item.id)}
+                      >
+                        <PencilSquareIcon className="h-4 w-4" />
+                      </button>
+                      <button
+                        className="btn btn-sm btn-square btn-outline btn-error tooltip"
+                        data-tip="Delete"
+                        onClick={() => handleDelete(item.id)}
+                      >
+                        <TrashIcon className="h-4 w-4" />
+                      </button>
                     </td>
                   </tr>
-                ) : (
-                  paginatedData.map((item) => (
-                    <tr key={item.id} className="hover:bg-base-200 transition-all">
-                      <td>{item.date}</td>
-                      <td className="badge badge-outline badge-primary badge-xs">
-                        ₹ {item.amount.toLocaleString("en-IN")}
-                      </td>
-                      <td>{item.investmentType}</td>
-                      <td>{item.platform}</td>
-                      <td className="max-w-[180px] truncate">{item.notes || "-"}</td>
-                      <td className="flex gap-2 justify-center">
-                        <button
-                          className="btn btn-sm btn-square btn-outline btn-primary tooltip"
-                          data-tip="Edit"
-                          onClick={() => handleEdit(item.id)}
-                        >
-                          <PencilSquareIcon className="h-4 w-4" />
-                        </button>
-                        <button
-                          className="btn btn-sm btn-square btn-outline btn-error tooltip"
-                          data-tip="Delete"
-                          onClick={() => handleDelete(item.id)}
-                        >
-                          <TrashIcon className="h-4 w-4" />
-                        </button>
-                      </td>
-                    </tr>
-                  ))
-                )}
-              </tbody>
-            </table>
-          </div>
-
-          {/* Pagination */}
-          {totalPages > 1 && (
-            <div className="flex justify-end pt-4 gap-2">
-              {[...Array(totalPages)].map((_, index) => (
-                <button
-                  key={index}
-                  className={`btn btn-sm ${
-                    currentPage === index + 1 ? "btn-primary" : "btn-ghost"
-                  }`}
-                  onClick={() => setCurrentPage(index + 1)}
-                >
-                  {index + 1}
-                </button>
-              ))}
-            </div>
-          )}
+                ))
+              )}
+            </tbody>
+          </table>
         </div>
-      </div>
 
-      {/* Delete Modal */}
+        {/* Pagination */}
+        {totalPages > 1 && (
+          <div className="flex justify-end pt-4 gap-2">
+            {[...Array(totalPages)].map((_, index) => (
+              <button
+                key={index}
+                className={`btn btn-sm ${currentPage === index + 1 ? "btn-primary" : "btn-ghost"}`}
+                onClick={() => setCurrentPage(index + 1)}
+              >
+                {index + 1}
+              </button>
+            ))}
+          </div>
+        )}
+      </div>
+    </div>
+
+    {/* Delete Modal */}
       {deleteId && (
         <ConfirmDeleteModal
+          title="Confirm Deletion"
+          message="Are you sure you want to delete this investment entry?"
+          confirmLabel="Yes, Delete"
+          cancelLabel="Cancel"
           onConfirm={handleConfirmDelete}
           onCancel={() => setDeleteId(null)}
         />
       )}
-    </div>
-  );
+  </div>
+);
+
 };
 
 export default ListInvestment;

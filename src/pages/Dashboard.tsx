@@ -13,10 +13,8 @@ import Chart from "react-apexcharts";
 
 const Dashboard = () => {
   const incomeExpenseOptions = {
-    chart: { id: "income-expense" },
-    xaxis: {
-      categories: ["Jan", "Feb", "Mar", "Apr", "May", "Jun"],
-    },
+    chart: { id: "income-expense", foreColor: "#999" },
+    xaxis: { categories: ["Jan", "Feb", "Mar", "Apr", "May", "Jun"] },
   };
   const incomeExpenseSeries = [
     { name: "Income", data: [40000, 50000, 60000, 48000, 62000, 58000] },
@@ -29,7 +27,7 @@ const Dashboard = () => {
   const expensePieSeries = [12000, 8000, 4000, 6000];
 
   const cashFlowOptions = {
-    chart: { id: "cash-flow" },
+    chart: { id: "cash-flow", foreColor: "#999" },
     xaxis: { categories: ["Jan", "Feb", "Mar", "Apr", "May"] },
   };
   const cashFlowSeries = [
@@ -37,15 +35,21 @@ const Dashboard = () => {
   ];
 
   const budgetHealthOptions = {
-    chart: {
-      type: "radialBar",
-    },
+    chart: { type: "radialBar", foreColor: "#999" },
     labels: ["Budget Health"],
   };
   const budgetHealthSeries = [70];
 
+  const summaryCards = [
+    { title: "Total Income", value: "₹1,00,000", icon: <CurrencyRupeeIcon className="w-6 h-6" /> },
+    { title: "Total Expenses", value: "₹52,000", icon: <BanknotesIcon className="w-6 h-6" /> },
+    { title: "Total Savings", value: "₹20,000", icon: <RectangleStackIcon className="w-6 h-6" /> },
+    { title: "Investments", value: "₹28,000", icon: <ArrowTrendingUpIcon className="w-6 h-6" /> },
+    { title: "Surplus / Deficit", value: "₹0", icon: <ChartPieIcon className="w-6 h-6" /> },
+  ];
+
   return (
-    <div className="flex flex-col gap-2 p-4">
+    <div className="flex flex-col gap-2 p-4 bg-base-100 text-base-content">
       <PageHeader
         title="Dashboard"
         icon={<ChartPieIcon className="w-6 h-6" />}
@@ -54,18 +58,8 @@ const Dashboard = () => {
 
       {/* Summary Cards */}
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
-        {[{
-          title: "Total Income", value: "₹1,00,000", icon: <CurrencyRupeeIcon className="w-6 h-6" />
-        }, {
-          title: "Total Expenses", value: "₹52,000", icon: <BanknotesIcon className="w-6 h-6" />
-        }, {
-          title: "Total Savings", value: "₹20,000", icon: <RectangleStackIcon className="w-6 h-6" />
-        }, {
-          title: "Investments", value: "₹28,000", icon: <ArrowTrendingUpIcon className="w-6 h-6" />
-        }, {
-          title: "Surplus / Deficit", value: "₹0", icon: <ChartPieIcon className="w-6 h-6" />
-        }].map((card, index) => (
-          <div key={index} className="card bg-white border border-gray-200 shadow-xs">
+        {summaryCards.map((card, index) => (
+          <div key={index} className="card bg-base-100 border border-base-200 shadow">
             <div className="card-body">
               <div className="flex items-center gap-2">
                 <div className="bg-primary text-white p-2 rounded-full">{card.icon}</div>
@@ -79,9 +73,9 @@ const Dashboard = () => {
         ))}
       </div>
 
-      {/* Charts */}
+      {/* Charts Section */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
-        <div className="card bg-white border border-gray-200 shadow-xs">
+        <div className="card bg-base-100 border border-base-200 shadow">
           <div className="card-body">
             <p className="font-semibold text-sm mb-2">Income vs Expense</p>
             <Chart
@@ -93,7 +87,7 @@ const Dashboard = () => {
           </div>
         </div>
 
-        <div className="card bg-white border border-gray-200 shadow-xs">
+        <div className="card bg-base-100 border border-base-200 shadow">
           <div className="card-body">
             <p className="font-semibold text-sm mb-2">Category-wise Expense Breakdown</p>
             <Chart
@@ -106,8 +100,9 @@ const Dashboard = () => {
         </div>
       </div>
 
+      {/* Savings & Portfolio */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
-        <div className="card bg-white border border-gray-200 shadow-xs">
+        <div className="card bg-base-100 border border-base-200 shadow">
           <div className="card-body">
             <p className="font-semibold text-sm">Saving Progress - Vacation 2025</p>
             <progress className="progress progress-primary w-full" value={80} max={100}></progress>
@@ -115,17 +110,13 @@ const Dashboard = () => {
           </div>
         </div>
 
-        <div className="card bg-white border border-gray-200 shadow-xs">
+        <div className="card bg-base-100 border border-base-200 shadow">
           <div className="card-body">
             <p className="font-semibold text-sm mb-2">Investment Portfolio</p>
             <div className="overflow-x-auto">
-              <table className="table table-sm">
+              <table className="table table-sm text-sm">
                 <thead>
-                  <tr>
-                    <th>Type</th>
-                    <th>Amount</th>
-                    <th>Growth</th>
-                  </tr>
+                  <tr><th>Type</th><th>Amount</th><th>Growth</th></tr>
                 </thead>
                 <tbody>
                   <tr><td>Stocks</td><td>₹10,000</td><td>10%</td></tr>
@@ -138,8 +129,9 @@ const Dashboard = () => {
         </div>
       </div>
 
+      {/* More Charts */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
-        <div className="card bg-white border border-gray-200 shadow-xs">
+        <div className="card bg-base-100 border border-base-200 shadow">
           <div className="card-body">
             <p className="font-semibold text-sm mb-2">Cash Flow Trend</p>
             <Chart
@@ -151,7 +143,7 @@ const Dashboard = () => {
           </div>
         </div>
 
-        <div className="card bg-white border border-gray-200 shadow-xs">
+        <div className="card bg-base-100 border border-base-200 shadow">
           <div className="card-body">
             <p className="font-semibold text-sm mb-2 text-center">Budget Health</p>
             <Chart
@@ -164,18 +156,14 @@ const Dashboard = () => {
         </div>
       </div>
 
-      <div className="card bg-white border border-gray-200 shadow-xs mt-4">
+      {/* Top 5 Expenses */}
+      <div className="card bg-base-100 border border-base-200 shadow mt-4">
         <div className="card-body">
           <p className="font-semibold text-sm mb-2">Top 5 Expenses This Month</p>
           <div className="overflow-x-auto">
-            <table className="table table-sm">
+            <table className="table table-sm text-sm">
               <thead>
-                <tr>
-                  <th>Date</th>
-                  <th>Category</th>
-                  <th>Amount</th>
-                  <th>Notes</th>
-                </tr>
+                <tr><th>Date</th><th>Category</th><th>Amount</th><th>Notes</th></tr>
               </thead>
               <tbody>
                 <tr><td>2025-06-01</td><td>Rent</td><td>₹15,000</td><td>Flat Rent</td></tr>

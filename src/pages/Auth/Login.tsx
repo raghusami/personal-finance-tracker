@@ -2,15 +2,17 @@
 
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { Helmet } from "react-helmet";
 import axios from "axios";
 import {
   FaEye,
   FaEyeSlash,
   FaEnvelope,
   FaLock,
-  FaGoogle,
 } from "react-icons/fa";
-import loginimage from "../../images/login-page.png"; // <- Use your uploaded image path here
+import loginimage from "../../images/login-page.png";
+import logo from "../../images/finvita-logo.png";
+import { motion } from "framer-motion";
 
 const LoginPage = () => {
   const navigate = useNavigate();
@@ -23,6 +25,7 @@ const LoginPage = () => {
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
+
     try {
       const res = await axios.get("http://localhost:4000/users");
       const user = res.data.find(
@@ -42,103 +45,117 @@ const LoginPage = () => {
     }
   };
 
-return (
-  <div className="min-h-screen grid lg:grid-cols-2 bg-white overflow-hidden">
-    {/* Left Side Illustration */}
-    <div className="hidden lg:flex items-center justify-center bg-[#f9f6ff] p-8 animate-fade-in">
-      <img
-        src={loginimage}
-        alt="Finance Infographic Illustration"
-        className="max-w-md w-full"
-      />
-    </div>
+  return (
+    <>
+      <Helmet>
+        <title>Login - FinVista</title>
+      </Helmet>
 
-    {/* Right Side Login Form */}
-    <div className="flex flex-col justify-center px-6 sm:px-10 md:px-16">
-      <div className="w-full max-w-md mx-auto bg-white p-8 rounded-2xl  animate-slide-up space-y-6">
-        {/* Logo & Tagline */}
-        <div className="text-center mb-10">
-          <h1 className="text-4xl font-extrabold text-[#422ad5]">FinVista</h1>
-          <p className="text-gray-500 text-sm mt-5">
-            Seamless Access, Secure Connection – Your Gateway to Smarter Finances.
-          </p>
+      <div className="min-h-screen grid lg:grid-cols-2 bg-base-100 text-base-content overflow-hidden">
+        {/* Left Side Illustration */}
+        <div className="hidden lg:flex items-center justify-center bg-base-200 p-8 animate-fade-in">
+          <img
+            src={loginimage}
+            alt="Login illustration"
+            className="max-w-md w-full"
+          />
         </div>
 
-        {/* Form */}
-        <form onSubmit={handleLogin} className="space-y-5">
-          <div className="relative">
-            <FaEnvelope className="absolute top-3.5 left-3 text-gray-400" />
-            <input
-              type="text"
-              placeholder="Email or Username"
-              value={usernameOrEmail}
-              onChange={(e) => setUsernameOrEmail(e.target.value)}
-              className="input input-bordered w-full pl-10 focus:outline-none focus:ring-1 focus:ring-[#422ad5] transition-all duration-150"
-              required
-            />
-          </div>
+        {/* Right Side Login Form */}
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+          className="flex flex-col justify-center px-6 sm:px-10 md:px-16"
+        >
+          <div className="w-full max-w-md mx-auto bg-base-100 p-8 rounded-2xl shadow-xs space-y-6">
+            {/* Logo & Tagline */}
+            <div className="text-center mb-6">
+              <img src={logo} alt="FinVista Logo" className="h-14 mx-auto mb-5" />
+              <p className="text-sm text-base-content mb-10">
+                Seamless Access, Secure Connection –
+                <br />
+                Your Gateway to Smarter Finances.
+              </p>
+            </div>
 
-          <div className="relative">
-            <FaLock className="absolute top-3.5 left-3 text-gray-400" />
-            <input
-              type={showPassword ? "text" : "password"}
-              placeholder="Password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              className="input input-bordered w-full pl-10 pr-10 focus:outline-none focus:ring-1 focus:ring-[#422ad5] transition-all duration-150"
-              required
-            />
-            <span
-              className="absolute top-3.5 right-3 text-gray-500 cursor-pointer"
-              onClick={() => setShowPassword(!showPassword)}
-            >
-              {showPassword ? <FaEyeSlash /> : <FaEye />}
-            </span>
-          </div>
+            {/* Login Form */}
+            <form onSubmit={handleLogin} className="space-y-5">
+              <div className="relative">
+                <FaEnvelope className="absolute top-3.5 left-3 text-base-content/50" />
+                <input
+                  type="text"
+                  placeholder="Email or Username"
+                  value={usernameOrEmail}
+                  onChange={(e) => setUsernameOrEmail(e.target.value)}
+                  className="input input-bordered w-full pl-10"
+                  required
+                />
+              </div>
 
-          {/* Checkbox + Forgot */}
-          <div className="flex justify-between items-center text-sm">
-            <label className="flex items-center gap-2">
-              <input
-                type="checkbox"
-                className="checkbox checkbox-primary"
-                checked={agree}
-                onChange={() => setAgree(!agree)}
-              />
-              <span>
-                I agree to{" "}
-                <a href="#" className="text-[#422ad5] underline">
-                  terms and conditions
+              <div className="relative">
+                <FaLock className="absolute top-3.5 left-3 text-base-content/50" />
+                <input
+                  type={showPassword ? "text" : "password"}
+                  placeholder="Password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  className="input input-bordered w-full pl-10 pr-10"
+                  required
+                />
+                <span
+                  className="absolute top-3.5 right-3 text-base-content/50 cursor-pointer"
+                  onClick={() => setShowPassword(!showPassword)}
+                >
+                  {showPassword ? <FaEyeSlash /> : <FaEye />}
+                </span>
+              </div>
+
+              <div className="flex justify-between items-center text-sm">
+                <label className="flex items-center gap-2">
+                  <input
+                    type="checkbox"
+                    className="checkbox checkbox-primary"
+                    checked={agree}
+                    onChange={() => setAgree(!agree)}
+                  />
+                  <span>
+                    I agree to{" "}
+                    <a href="#" className="text-primary underline">
+                      terms & conditions
+                    </a>
+                  </span>
+                </label>
+                <a href="#" className="text-primary hover:underline">
+                  Forgot Password?
                 </a>
-              </span>
-            </label>
-            <a href="#" className="text-[#422ad5] hover:underline">
-              Forgot Password?
-            </a>
+              </div>
+
+              {error && <p className="text-error text-sm">{error}</p>}
+
+              <button
+                type="submit"
+                className="btn btn-primary w-full"
+              >
+                Login
+              </button>
+            </form>
+
+            {/* Footer */}
+            <p className="text-center text-sm">
+              Don’t have an account?{" "}
+              <Link
+                to="/register"
+                className="text-primary font-semibold hover:underline"
+              >
+                Create One
+              </Link>
+            </p>
           </div>
-
-          {error && <p className="text-red-600 text-sm">{error}</p>}
-
-          <button
-            type="submit"
-            className="btn bg-[#422ad5] hover:bg-[#341eae] text-white w-full text-md"
-          >
-            Login
-          </button>
-        </form>
-
-        {/* Footer */}
-        <p className="text-center text-sm">
-          Don’t have an account?{" "}
-          <Link to="/register" className="text-[#422ad5] font-semibold hover:underline">
-            Create One
-          </Link>
-        </p>
+        </motion.div>
       </div>
-    </div>
-  </div>
-);
-
+    </>
+  );
 };
 
 export default LoginPage;

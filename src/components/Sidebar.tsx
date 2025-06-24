@@ -33,14 +33,18 @@ const Sidebar = () => {
 
   return (
     <aside
-     className={`bg-base-100 border-r border-gray-200 h-screen flex flex-col shadow-md transition-all duration-300 ${
+      className={clsx(
+        "bg-base-100 border-r border-base-200 h-screen flex flex-col shadow-md transition-all duration-300",
         collapsed ? "w-20" : "w-64"
-      }`}
+      )}
     >
       {/* Header */}
       <div className="flex items-center justify-between px-4 py-5">
-        {!collapsed && 
-        <span className="text-2xl font-bold bg-gradient-to-r from-indigo-700  to-indigo-700 bg-clip-text text-transparent flex items-center gap-2">💼 FinVista</span>}
+        {!collapsed && (
+          <span className="text-2xl font-bold bg-gradient-to-r from-primary to-primary bg-clip-text text-transparent flex items-center gap-2">
+            💼 FinVista
+          </span>
+        )}
         <button onClick={() => setCollapsed(!collapsed)} className="text-xl text-base-content">
           <AiOutlineMenu />
         </button>
@@ -51,7 +55,9 @@ const Sidebar = () => {
         {menuSections.map((section, index) => (
           <div key={index} className="px-3 pt-4">
             {!collapsed && (
-              <p className="text-xs uppercase text-gray-400 mb-2 px-2">{section.title}</p>
+              <p className="text-xs uppercase text-base-content/60 mb-2 px-2">
+                {section.title}
+              </p>
             )}
             <ul className="space-y-1">
               {section.items.map((item) => {
@@ -63,18 +69,16 @@ const Sidebar = () => {
                       className={clsx(
                         "flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium transition-all duration-200",
                         isActive
-                          ? "bg-primary text-white shadow"
+                          ? "bg-primary text-primary-content shadow"
                           : "text-base-content hover:bg-base-200 hover:text-primary"
                       )}
                       title={collapsed ? item.name : ""}
                     >
-                      <span className={clsx("text-lg", isActive ? "text-white" : "text-base-content")}>
+                      <span className={clsx("text-lg", isActive ? "text-primary-content" : "text-base-content")}>
                         {item.icon}
                       </span>
                       {!collapsed && <span>{item.name}</span>}
                     </Link>
-
-                    {/* Active indicator bar */}
                     {isActive && (
                       <span className="absolute left-0 top-0 h-full w-1 bg-primary rounded-r-lg"></span>
                     )}
@@ -95,9 +99,9 @@ const Sidebar = () => {
             </div>
           </div>
           {!collapsed && (
-            <div className="flex flex-col text-sm leading-tight">
+            <div className="flex flex-col text-sm leading-tight text-base-content">
               <span className="font-semibold">Denish N</span>
-              <span className="text-xs text-gray-400">@withden</span>
+              <span className="text-xs opacity-60">@withden</span>
             </div>
           )}
         </div>

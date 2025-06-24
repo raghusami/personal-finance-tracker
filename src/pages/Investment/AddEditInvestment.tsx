@@ -91,28 +91,31 @@ const AddEditInvestment = () => {
   };
 
   return (
-    <div className="p-4">
-      <PageHeader
-        title={isEdit ? "Edit Investment" : "Add Investment"}
-        icon={<BanknotesIcon className="w-6 h-6" />}
-        breadcrumb={["Components", "Investments", isEdit ? "Edit" : "Add"]}
-      />
-      <div className="flex justify-left">
-      <div className="card bg-white border border-gray-200 shadow-sm">
-        <div className="card-body">
-          {loading ? (
-            <p className="text-center text-sm text-gray-500">Loading form...</p>
-          ) : (
-            <form onSubmit={handleSubmit(onSubmit)} className="grid gap-6 md:grid-cols-2">
-              <div>
-                <label className="label font-semibold">Date</label>
-                <input type="date" {...register("date")} className="input input-bordered w-full" />
-                {errors.date && <p className="text-error text-xs mt-1">{errors.date.message}</p>}
-              </div>
+  <div className="p-4">
+  <PageHeader
+    title={isEdit ? "Edit Investment" : "Add Investment"}
+    icon={<BanknotesIcon className="w-6 h-6" />}
+    breadcrumb={["Components", "Investments", isEdit ? "Edit" : "Add"]}
+  />
 
-                        <div>
-            <label className="label font-semibold">Investment Type</label>
-            <select {...register("investmentType")} className="select select-bordered w-full">
+  <div className="flex justify-left">
+    <div className="card bg-base-100 border border-base-200 shadow-sm w-full">
+      <div className="card-body text-base-content">
+        {loading ? (
+          <p className="text-center text-sm text-base-content/60">Loading form...</p>
+        ) : (
+          <form onSubmit={handleSubmit(onSubmit)} className="grid gap-6 md:grid-cols-2">
+            {/* Date */}
+            <div>
+              <label className="label font-semibold">Date</label>
+              <input type="date" {...register("date")} className="input input-bordered w-full" />
+              {errors.date && <p className="text-error text-xs mt-1">{errors.date.message}</p>}
+            </div>
+
+            {/* Investment Type */}
+            <div>
+              <label className="label font-semibold">Investment Type</label>
+              <select {...register("investmentType")} className="select select-bordered w-full">
                 <option value="">-- Select Type --</option>
                 <option value="Stocks">Stocks</option>
                 <option value="Mutual Funds">Mutual Funds</option>
@@ -120,65 +123,75 @@ const AddEditInvestment = () => {
                 <option value="Fixed Deposit">Fixed Deposit</option>
                 <option value="Crypto">Crypto</option>
                 <option value="Others">Others</option>
-            </select>
-            {errors.investmentType && <p className="text-error text-xs mt-1">{errors.investmentType.message}</p>}
+              </select>
+              {errors.investmentType && <p className="text-error text-xs mt-1">{errors.investmentType.message}</p>}
             </div>
 
-                <div>
-                <label className="label font-semibold">Platform</label>
-                <select {...register("platform")} className="select select-bordered w-full">
-                    <option value="">-- Select Platform --</option>
-                    <option value="Zerodha">Zerodha</option>
-                    <option value="Groww">Groww</option>
-                    <option value="Upstox">Upstox</option>
-                    <option value="Coin by Zerodha">Coin</option>
-                    <option value="Bank">Bank</option>
-                    <option value="Others">Others</option>
-                </select>
-                {errors.platform && <p className="text-error text-xs mt-1">{errors.platform.message}</p>}
-                </div>
+            {/* Platform */}
+            <div>
+              <label className="label font-semibold">Platform</label>
+              <select {...register("platform")} className="select select-bordered w-full">
+                <option value="">-- Select Platform --</option>
+                <option value="Zerodha">Zerodha</option>
+                <option value="Groww">Groww</option>
+                <option value="Upstox">Upstox</option>
+                <option value="Coin by Zerodha">Coin</option>
+                <option value="Bank">Bank</option>
+                <option value="Others">Others</option>
+              </select>
+              {errors.platform && <p className="text-error text-xs mt-1">{errors.platform.message}</p>}
+            </div>
 
+            {/* Invested Amount */}
+            <div>
+              <label className="label font-semibold">Invested Amount</label>
+              <input type="number" {...register("amount")} className="input input-bordered w-full" />
+              {errors.amount && <p className="text-error text-xs mt-1">{errors.amount.message}</p>}
+            </div>
 
-              <div>
-                <label className="label font-semibold">Invested Amount</label>
-                <input type="number" {...register("amount")} className="input input-bordered w-full" />
-                {errors.amount && <p className="text-error text-xs mt-1">{errors.amount.message}</p>}
-              </div>
+            {/* Current Value */}
+            <div>
+              <label className="label font-semibold">Current Value</label>
+              <input type="number" {...register("currentValue")} className="input input-bordered w-full" />
+              {errors.currentValue && <p className="text-error text-xs mt-1">{errors.currentValue.message}</p>}
+            </div>
 
-              <div>
-                <label className="label font-semibold">Current Value</label>
-                <input type="number" {...register("currentValue")} className="input input-bordered w-full" />
-                {errors.currentValue && <p className="text-error text-xs mt-1">{errors.currentValue.message}</p>}
-              </div>
+            {/* Status */}
+            <div>
+              <label className="label font-semibold">Status</label>
+              <select {...register("status")} className="select select-bordered w-full">
+                <option value="Active">Active</option>
+                <option value="Exited">Exited</option>
+              </select>
+              {errors.status && <p className="text-error text-xs mt-1">{errors.status.message}</p>}
+            </div>
 
-              <div>
-                <label className="label font-semibold">Status</label>
-                <select {...register("status")} className="select select-bordered w-full">
-                  <option value="Active">Active</option>
-                  <option value="Exited">Exited</option>
-                </select>
-                {errors.status && <p className="text-error text-xs mt-1">{errors.status.message}</p>}
-              </div>
+            {/* Notes */}
+            <div className="md:col-span-2">
+              <label className="label font-semibold">Notes</label>
+              <textarea {...register("notes")} className="textarea textarea-bordered w-full" rows={3} />
+            </div>
 
-              <div className="md:col-span-2">
-                <label className="label font-semibold">Notes</label>
-                <textarea {...register("notes")} className="textarea textarea-bordered w-full" rows={3} />
-              </div>
-
-              <div className="md:col-span-2 flex justify-end gap-3">
-                <button type="submit" disabled={isSubmitting} className={`btn btn-primary ${isSubmitting ? "loading" : ""}`}>
-                  {isEdit ? "Update Investment" : "Save Investment"}
-                </button>
-                <button type="button" onClick={() => reset()} className="btn">
-                  Cancel
-                </button>
-              </div>
-            </form>
-          )}
-        </div>
+            {/* Submit Buttons */}
+            <div className="md:col-span-2 flex justify-end gap-3 pt-2">
+              <button
+                type="submit"
+                disabled={isSubmitting}
+                className={`btn btn-primary ${isSubmitting ? "loading" : ""}`}
+              >
+                {isEdit ? "Update Investment" : "Save Investment"}
+              </button>
+              <button type="button" onClick={() => reset()} className="btn btn-active">
+                Cancel
+              </button>
+            </div>
+          </form>
+        )}
       </div>
     </div>
-    </div>
+  </div>
+</div>
+
   );
 };
 
