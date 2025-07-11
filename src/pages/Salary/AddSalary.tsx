@@ -4,25 +4,25 @@ import { useEffect, useState } from "react";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import {
-  createSalary,
-  getSalaryById,
-  updateSalary,
-} from "../../services/salaryService";
+  createIncome,
+  getIncomeById,
+  updateIncome,
+} from "../../services/IncomeService";
 import { showToast } from "../../components/ToastPortal";
 import PageHeader from "../../components/PageHeader";
-import { Salary } from "../../types/Salary";
+import { Income } from "../../types/Income";
 import {
   CurrencyRupeeIcon,
 } from "@heroicons/react/24/solid";
 
 
 const schema = yup.object().shape({
-  date: yup.string().required("Date is required"),
-  sourceOfIncome: yup.string().required("Source is required"),
+  incomeDate: yup.string().required("Date is required"),
+  incomeSource: yup.string().required("Source is required"),
   amount: yup.number().positive().required("Amount is required"),
   currency: yup.string().required("Currency is required"),
   notes: yup.string().optional(),
-  type: yup.string().oneOf(["Primary", "Secondary", "Bonus", "Freelance"]),
+  incomeType: yup.string().oneOf(["Primary", "Secondary", "Bonus", "Freelance"]),
 });
 
 const AddEditSalary = () => {
@@ -37,15 +37,14 @@ const AddEditSalary = () => {
     reset,
     setValue,
     formState: { errors, isSubmitting },
-  } = useForm<Omit<Salary, "id">>({
+  } = useForm<Omit<Income, "id">>({
     resolver: yupResolver(schema),
     defaultValues: {
-      date: "",
-      sourceOfIncome: "Salary",
+      incomeDate: "",
+      incomeSource: "Salary",
       amount: 0,
-      currency: "INR",
       notes: "",
-      type: "Primary",
+      incomeType: "Primary",
     },
   });
 
@@ -59,13 +58,13 @@ const AddEditSalary = () => {
   const loadSalary = async (id: string) => {
     try {
       setLoading(true);
-      const response = await getSalaryById(id);
-      const data = response.data;
-
+      const response = await getIncomeById(id);
+      const data = response.data.responseData;
+       console.log("Loaded salary data:", data); // Debugging line to check loaded data
       // Set form values for edit
       Object.keys(data).forEach((key) => {
         if (key in data) {
-          setValue(key as keyof Salary, data[key]);
+          setValue(key as keyof Income, data[key]);
         }
       });
     } catch (error) {
@@ -75,13 +74,13 @@ const AddEditSalary = () => {
     }
   };
 
-  const onSubmit = async (formData: Omit<Salary, "id">) => {
+  const onSubmit = async (formData: Omit<Income, "id">) => {
     try {
       if (isEdit && id) {
-        await updateSalary(id, formData);
+        await updateIncome(id, formData);
         showToast("success", "Salary updated successfully!");
       } else {
-        await createSalary(formData);
+        await createIncome(formData);
         showToast("success", "Salary added successfully!");
       }
 
@@ -113,18 +112,18 @@ return (
                 <label className="label font-semibold text-base-content">Date</label>
                 <input
                   type="date"
-                  {...register("date")}
+                  {...register("incomeDate")}
                   className="input input-bordered w-full"
                 />
-                {errors.date && (
-                  <p className="text-error text-xs mt-1">{errors.date.message}</p>
+                {errors.incomeDate && (
+                  <p className="text-error text-xs mt-1">{errors.incomeDate.message}</p>
                 )}
               </div>
 
               {/* Source of Income */}
               <div>
                 <label className="label font-semibold text-base-content">Source of Income</label>
-                <select {...register("sourceOfIncome")} className="select select-bordered w-full">
+                <select {...register("incomeSource")} className="select select-bordered w-full">
                   <option value="Salary">Salary</option>
                   <option value="Freelance">Freelance</option>
                   <option value="Bonus">Bonus</option>
@@ -161,7 +160,7 @@ return (
               {/* Income Type */}
               <div>
                 <label className="label font-semibold text-base-content">Income Type</label>
-                <select {...register("type")} className="select select-bordered w-full">
+                <select {...register("incomeType")} className="select select-bordered w-full">
                   <option value="Primary">Primary</option>
                   <option value="Secondary">Secondary</option>
                   <option value="Freelance">Freelance</option>

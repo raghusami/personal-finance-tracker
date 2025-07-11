@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import {
-  getSalaries,
-  deleteSalary,
-} from "../../services/salaryService";
-import { Salary } from "../../types/Salary";
+  getIncomes,
+  deleteIncome,
+} from "../../services/IncomeService";
+import { Income } from "../../types/Income";
 import PageHeader from "../../components/PageHeader";
 import { showToast } from "../../components/ToastPortal";
 import { useNavigate } from "react-router-dom";
@@ -17,8 +17,8 @@ import {
 import ConfirmDeleteModal from "../../components/ConfirmDeleteModal";
 
 const ListSalary = () => {
-  const [salaryList, setSalaryList] = useState<Salary[]>([]);
-  const [filteredSalaries, setFilteredSalaries] = useState<Salary[]>([]);
+  const [salaryList, setSalaryList] = useState<Income[]>([]);
+  const [filteredSalaries, setFilteredSalaries] = useState<Income[]>([]);
   const [search, setSearch] = useState("");
   const [filterType, setFilterType] = useState("All");
   const [currentPage, setCurrentPage] = useState(1);
@@ -36,8 +36,9 @@ const ListSalary = () => {
 
   const fetchSalaries = async () => {
     try {
-      const res = await getSalaries();
-      setSalaryList(res.data);
+      const res = await getIncomes();
+      console.log("Fetched salaries:", res.data.responseData); // Debugging line to check fetched data
+      setSalaryList(res.data.responseData);
     } catch {
       showToast("error", "Failed to load salary entries.");
     }
@@ -46,12 +47,12 @@ const ListSalary = () => {
   const applyFilters = () => {
     let data = [...salaryList];
     if (filterType !== "All") {
-      data = data.filter((item) => item.type === filterType);
+      data = data.filter((item) => item.IncomeType === filterType);
     }
     if (search.trim()) {
       data = data.filter(
         (item) =>
-          item.sourceOfIncome.toLowerCase().includes(search.toLowerCase()) ||
+          item.incomeSource.toLowerCase().includes(search.toLowerCase()) ||
           item.notes?.toLowerCase().includes(search.toLowerCase())
       );
     }
@@ -76,7 +77,7 @@ const ListSalary = () => {
   const handleConfirmDelete = async () => {
     if (!deleteId) return;
     try {
-      await deleteSalary(deleteId);
+      await deleteIncome(deleteId);
       showToast("success", "Deleted successfully.");
       fetchSalaries();
     } catch {            
@@ -160,8 +161,8 @@ const ListSalary = () => {
               ) : (
                 paginatedSalaries.map((item) => (
                   <tr key={item.id} className="hover:bg-base-200 transition-all">
-                    <td>{item.date}</td>
-                    <td>{item.sourceOfIncome}</td>
+                    <td>{item.incomeDate}</td>
+                    <td>{item.incomeSource}</td>
                     <td className="badge badge-outline badge-primary badge-xs">
                       {new Intl.NumberFormat("en-IN", {
                         style: "currency",
@@ -172,16 +173,16 @@ const ListSalary = () => {
                     <td>
                       <span
                         className={`badge badge-sm ${
-                          item.type === "Primary"
+                          item.incomeType === "Primary"
                             ? "badge-primary"
-                            : item.type === "Bonus"
+                            : item.incomeType === "Bonus"
                             ? "badge-success"
-                            : item.type === "Freelance"
+                            : item.incomeType === "Freelance"
                             ? "badge-warning"
                             : "badge-neutral"
                         }`}
                       >
-                        {item.type}
+                        {item.incomeType}
                       </span>
                     </td>
                     <td className="max-w-[150px] truncate">{item.notes || "-"}</td>
