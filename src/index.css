@@ -30,3 +30,10 @@
     @apply focus:outline-none focus:ring-1 focus:ring-[#422ad5] transition-all duration-150;
   }
 }
+.react-datepicker__input-container {
+  width: block;
+}
+
+.react-datepicker-wrapper {
+  width: 100% !important;
+}

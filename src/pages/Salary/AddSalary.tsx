@@ -15,6 +15,8 @@ import {
   CurrencyRupeeIcon,
 } from "@heroicons/react/24/solid";
 
+import DatePickerField from "../../components/DatePickerField";
+
 
 const schema = yup.object().shape({
   incomeDate: yup.string().required("Date is required"),
@@ -30,6 +32,7 @@ const AddEditSalary = () => {
   const isEdit = Boolean(id);
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
+  const [existingData, setExistingData] = useState<Income | null>(null);
 
   const {
     register,
@@ -44,6 +47,7 @@ const AddEditSalary = () => {
       incomeSource: "Salary",
       amount: 0,
       notes: "",
+      currency: "INR",
       incomeType: "Primary",
     },
   });
@@ -60,7 +64,7 @@ const AddEditSalary = () => {
       setLoading(true);
       const response = await getIncomeById(id);
       const data = response.data.responseData;
-       console.log("Loaded salary data:", data); // Debugging line to check loaded data
+      setExistingData(data); // ✅ save to state
       // Set form values for edit
       Object.keys(data).forEach((key) => {
         if (key in data) {
@@ -76,11 +80,20 @@ const AddEditSalary = () => {
 
   const onSubmit = async (formData: Omit<Income, "id">) => {
     try {
+  
+      // Format incomeDate to yyyy-MM-dd
+    const formattedData = {
+      ...formData,
+      incomeDate: formData.incomeDate
+        ? new Date(formData.incomeDate).toISOString().split("T")[0]
+        : "",
+    };
+
       if (isEdit && id) {
-        await updateIncome(id, formData);
+        await updateIncome(id, formattedData);
         showToast("success", "Salary updated successfully!");
       } else {
-        await createIncome(formData);
+        await createIncome(formattedData);
         showToast("success", "Salary added successfully!");
       }
 
@@ -105,20 +118,17 @@ return (
             <p className="text-center text-sm text-base-content opacity-60">
               Loading form...
             </p>
-          ) : (
+            ) : (
             <form onSubmit={handleSubmit(onSubmit)} className="grid gap-5">
               {/* Date */}
-              <div>
-                <label className="label font-semibold text-base-content">Date</label>
-                <input
-                  type="date"
-                  {...register("incomeDate")}
-                  className="input input-bordered w-full"
-                />
-                {errors.incomeDate && (
-                  <p className="text-error text-xs mt-1">{errors.incomeDate.message}</p>
-                )}
-              </div>
+                  <DatePickerField
+              label="Date"
+              name="incomeDate"
+              setValue={setValue}
+              errors={errors}
+             defaultValue={existingData?.incomeDate}
+
+            />
 
               {/* Source of Income */}
               <div>
